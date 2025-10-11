@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>QR Suite — Builder + Printer</title>
+
+<link rel="stylesheet" href="assets/css/ui.css" />
+
+<!-- Libraries (CDN) -->
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<!-- QZ Tray (bridge) -->
+<script src="https://demo.qz.io/js/qz-tray.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <h1 id="appTitle">QR Suite</h1>
+    <p id="appSubtitle">Builder + Printer</p>
+  </div>
+  <div class="tabs">
+    <button class="tab active" id="tabBuilder">QR Builder</button>
+    <button class="tab" id="tabPrinter">QR Printer</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- ============ BUILDER ============ -->
+  <section id="secBuilder">
+    <div class="card">
+      <div class="row">
+        <label id="browseLabel" class="btn secondary" for="fileInput">📁 Browse Images</label>
+        <input id="fileInput" type="file" accept="image/*" multiple hidden />
+        <span id="fileList" class="pill">No files selected</span>
+
+        <span class="hint">Caption</span>
+        <input id="captionInput" class="input" placeholder="optional" />
+
+        <span class="hint">Text/URL</span>
+        <input id="manualInput" class="input" placeholder="paste URL or any text" />
+        <button id="addManualBtn" class="btn secondary">➕ Add</button>
+
+        <span class="hint">Output</span>
+        <input id="outSize" class="num" type="number" min="256" step="32" value="1024"/>
+        <button id="processBtn" class="btn" disabled>⚡ Process</button>
+        <button id="resetBtn" class="btn secondary" disabled>🔄 Reset</button>
+      </div>
+    </div>
+
+    <!-- Builder controls -->
+    <div class="card">
+      <div class="sectionTitle">🎛️ Builder Layout Controls</div>
+      <div class="cols">
+        <div class="stack"><label class="hint">Code font size (px)</label><input id="b_codePx" class="num" type="number" min="12" step="2" value="0"></div>
+        <div class="stack"><label class="hint">Caption font size (px)</label><input id="b_capPx" class="num" type="number" min="10" step="2" value="0"></div>
+        <div class="stack"><label class="hint">Gap QR → Line (mm)</label><input id="b_gapQtoL" class="num" type="number" min="0" step="0.5" value="0"></div>
+        <div class="stack"><label class="hint">Gap Line → Code (mm)</label><input id="b_gapLtoC" class="num" type="number" min="0" step="0.5" value="5"></div>
+        <div class="stack"><label class="hint">Gap Code → Line (mm)</label><input id="b_gapCtoL" class="num" type="number" min="0" step="0.5" value="0"></div>
+        <div class="stack"><label class="hint">Gap Line → Caption (mm)</label><input id="b_gapLtoCap" class="num" type="number" min="0" step="0.5" value="5"></div>
+        <div class="stack"><label class="hint">Font family</label>
+          <select id="b_font" class="select">
+            <option value="Inter,Arial,Helvetica,sans-serif" selected>Inter/Arial</option>
+            <option value="Arial,Helvetica,sans-serif">Arial</option>
+            <option value="Helvetica,Arial,sans-serif">Helvetica</option>
+            <option value="Segoe UI,Arial,sans-serif">Segoe UI</option>
+            <option value="Roboto,Arial,sans-serif">Roboto</option>
+          </select>
+        </div>
+        <div class="stack"><label class="hint">Outer margin (mm)</label><input id="b_outerMm" class="num" type="number" min="0" step="0.5" value="3"></div>
+      </div>
+
+      <div class="sectionTitle" style="margin-top:10px">➖ Divider options</div>
+      <div class="cols">
+        <div class="stack"><label class="hint">Top divider type</label>
+          <select id="b_divTop_type" class="select">
+            <option value="none" selected>None</option>
+            <option value="solid">Solid</option>
+            <option value="dashed">Dashed</option>
+            <option value="dotted">Dotted</option>
+          </select>
+        </div>
+        <div class="stack"><label class="hint">Top thickness (mm)</label><input id="b_divTop_th" class="num" type="number" min="0" step="0.5" value="0.5"></div>
+        <div class="stack"><label class="hint">Top length (%)</label><input id="b_divTop_len" class="num" type="number" min="10" max="100" step="1" value="80"></div>
+
+        <div class="stack"><label class="hint">Bottom divider type</label>
+          <select id="b_divBot_type" class="select">
+            <option value="none" selected>None</option>
+            <option value="solid">Solid</option>
+            <option value="dashed">Dashed</option>
+            <option value="dotted">Dotted</option>
+          </select>
+        </div>
+        <div class="stack"><label class="hint">Bottom thickness (mm)</label><input id="b_divBot_th" class="num" type="number" min="0" step="0.5" value="0.5"></div>
+        <div class="stack"><label class="hint">Bottom length (%)</label><input id="b_divBot_len" class="num" type="number" min="10" max="100" step="1" value="80"></div>
+      </div>
+    </div>
+
+    <div class="card"><div class="row"><strong>📸 Originals</strong></div><div id="origRow" class="gallery"></div></div>
+    <div class="card"><div class="row"><strong>✨ Enhanced</strong></div><div id="enhRow" class="gallery"></div></div>
+
+    <div id="dataPanel" class="card" style="display:none">
+      <div class="row"><strong>📊 Decoded Table</strong></div>
+      <div style="overflow:auto">
+        <table>
+          <thead><tr><th>#</th><th>Link/Text</th><th>Code(6)</th><th>Caption</th></tr></thead>
+          <tbody id="dataBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="row stack-vertical">
+        <div class="row">
+          <select id="zipType" class="select"><option value="png" selected>ZIP: PNG</option><option value="jpg">ZIP: JPG</option><option value="svg">ZIP: SVG</option></select>
+          <button id="zipBtn" class="btn secondary" disabled>📦 Download ZIP</button>
+        </div>
+        <div class="row">
+          <select id="exportType" class="select"><option value="xlsx" selected>Export: Excel</option><option value="csv">CSV</option><option value="pdf">PDF (A4 grid)</option></select>
+          <button id="exportBtn" class="btn secondary" disabled>⬇ Export</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRINTER ============ -->
+  <section id="secPrinter" class="hidden">
+    <div class="card">
+      <div class="row">
+        <button id="btnBridge" class="btn secondary">🔌 Connect QZ Tray</button>
+        <select id="printerList" class="select" disabled><option value="">(Select Printer)</option></select>
+        <button id="btnRefresh" class="btn secondary" disabled>🔄 Refresh</button>
+        <button id="btnPrintAll" class="btn" disabled>🖨️ Print All (PNG)</button>
+      </div>
+      <div class="hint" id="bridgeStatus">Status: Not connected</div>
+    </div>
+
+    <div class="card">
+      <div class="sectionTitle">🗂️ Data Source (Printer)</div>
+      <div class="row">
+        <select id="p_dataMode" class="select">
+          <option value="builder" selected>Use Builder Table</option>
+          <option value="import">Import Excel/CSV</option>
+          <option value="manual">Manual (one per line)</option>
+        </select>
+        <input id="p_file" type="file" accept=".xlsx,.xls,.csv" hidden />
+        <button id="p_btnFile" class="btn secondary hidden">📥 Choose File</button>
+      </div>
+      <div id="p_manualBox" class="hidden" style="margin-top:8px">
+        <div class="hint">Format: <code>text_or_url | code | caption | qty</code> (code optional; qty default 1)</div>
+        <textarea id="p_manualText" rows="5" style="width:100%"></textarea>
+      </div>
+      <div class="row" style="margin-top:8px"><span class="hint" id="p_rowsHint">Rows: 0</span></div>
+    </div>
+
+    <div class="card">
+      <div class="sectionTitle">🎛️ Printer Layout Controls</div>
+      <div class="cols">
+        <div class="stack"><label class="hint">Label width (mm)</label><input id="p_wmm" class="num" type="number" value="100" min="10" step="1"></div>
+        <div class="stack"><label class="hint">Label height (mm)</label><input id="p_hmm" class="num" type="number" value="80" min="10" step="1"></div>
+        <div class="stack"><label class="hint">DPI</label><input id="p_dpi" class="num" type="number" value="203" min="150" step="1"></div>
+        <div class="stack"><label class="hint">Outer L/R (mm)</label><input id="p_mLR" class="num" type="number" value="3" min="0" step="0.5"></div>
+        <div class="stack"><label class="hint">Outer T/B (mm)</label><input id="p_mTB" class="num" type="number" value="3" min="0" step="0.5"></div>
+        <div class="stack"><label class="hint">QR size (mm)</label><input id="p_qrmm" class="num" type="number" value="60" min="10" step="1"></div>
+        <div class="stack"><label class="hint">Gap QR → Code (mm)</label><input id="p_gap1" class="num" type="number" value="5" min="0" step="0.5"></div>
+        <div class="stack"><label class="hint">Gap Code → Caption (mm)</label><input id="p_gap2" class="num" type="number" value="5" min="0" step="0.5"></div>
+        <div class="stack"><label class="hint">Code font (pt)</label><input id="p_codePt" class="num" type="number" value="28" min="8" step="1"></div>
+        <div class="stack"><label class="hint">Caption font (pt)</label><input id="p_capPt" class="num" type="number" value="22" min="8" step="1"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="sectionTitle">🧱 Border & Padding</div>
+      <div class="cols">
+        <div class="stack"><label class="hint">Border type</label>
+          <select id="p_borderType" class="select">
+            <option value="none" selected>None</option>
+            <option value="rect">Rectangle</option>
+            <option value="round">Rounded Rectangle</option>
+            <option value="circle">Circle</option>
+            <option value="ellipse">Ellipse</option>
+          </select>
+        </div>
+        <div class="stack"><label class="hint">Border style</label>
+          <select id="p_borderStyle" class="select">
+            <option value="solid" selected>Solid</option>
+            <option value="dashed">Dashed</option>
+            <option value="dotted">Dotted</option>
+          </select>
+        </div>
+        <div class="stack"><label class="hint">Border thickness (mm)</label><input id="p_borderMm" class="num" type="number" value="0" min="0" step="0.5"></div>
+        <div class="stack"><label class="hint">Corner radius (mm)</label><input id="p_radiusMm" class="num" type="number" value="3" min="0" step="0.5"></div>
+
+        <div class="stack"><label class="hint">Padding Left (mm)</label><input id="p_padL" class="num" type="number" value="0" min="0" step="0.5"></div>
+        <div class="stack"><label class="hint">Padding Top (mm)</label><input id="p_padT" class="num" type="number" value="0" min="0" step="0.5"></div>
+        <div class="stack"><label class="hint">Padding Right (mm)</label><input id="p_padR" class="num" type="number" value="0" min="0" step="0.5"></div>
+        <div class="stack"><label class="hint">Padding Bottom (mm)</label><input id="p_padB" class="num" type="number" value="0" min="0" step="0.5"></div>
+      </div>
+
+      <div class="sectionTitle" style="margin-top:10px">➖ Divider A (QR ↔ Code)</div>
+      <div class="cols narrow">
+        <div class="stack"><label class="hint">Enable</label><select id="p_divA_on" class="select"><option value="off" selected>Off</option><option value="on">On</option></select></div>
+        <div class="stack"><label class="hint">Style</label><select id="p_divA_style" class="select"><option value="solid" selected>Solid</option><option value="dashed">Dashed</option><option value="dotted">Dotted</option></select></div>
+        <div class="stack"><label class="hint">Thickness (mm)</label><input id="p_divA_mm" class="num" type="number" value="0.5" step="0.5" min="0"></div>
+        <div class="stack"><label class="hint">Length (%)</label><input id="p_divA_len" class="num" type="number" value="80" step="1" min="10" max="100"></div>
+        <div class="stack"><label class="hint">Space above (mm)</label><input id="p_divA_up" class="num" type="number" value="1" step="0.5" min="0"></div>
+        <div class="stack"><label class="hint">Space below (mm)</label><input id="p_divA_dn" class="num" type="number" value="1" step="0.5" min="0"></div>
+      </div>
+
+      <div class="sectionTitle" style="margin-top:10px">➖ Divider B (Code ↔ Caption)</div>
+      <div class="cols narrow">
+        <div class="stack"><label class="hint">Enable</label><select id="p_divB_on" class="select"><option value="off" selected>Off</option><option value="on">On</option></select></div>
+        <div class="stack"><label class="hint">Style</label><select id="p_divB_style" class="select"><option value="solid" selected>Solid</option><option value="dashed">Dashed</option><option value="dotted">Dotted</option></select></div>
+        <div class="stack"><label class="hint">Thickness (mm)</label><input id="p_divB_mm" class="num" type="number" value="0.5" step="0.5" min="0"></div>
+        <div class="stack"><label class="hint">Length (%)</label><input id="p_divB_len" class="num" type="number" value="80" step="1" min="10" max="100"></div>
+        <div class="stack"><label class="hint">Space above (mm)</label><input id="p_divB_up" class="num" type="number" value="1" step="0.5" min="0"></div>
+        <div class="stack"><label class="hint">Space below (mm)</label><input id="p_divB_dn" class="num" type="number" value="1" step="0.5" min="0"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="row"><strong>🖼️ Label Preview (~100mm wide)</strong></div>
+      <canvas id="labelPreview" width="800" height="600"></canvas>
+      <div class="row" style="margin-top:8px"><button id="btnPreview" class="btn secondary">👁️ Preview</button></div>
+    </div>
+
+    <div class="card">
+      <div class="row"><strong>📝 Job Summary</strong></div>
+      <pre id="jobSummary" class="mono"></pre>
+    </div>
+  </section>
+</main>
+
+<!-- App modules (order matters) -->
+<script src="assets/js/ui_config.js"></script>
+<script src="assets/js/utils.js"></script>
+<script src="assets/js/qr.js"></script>
+<script src="assets/js/browse.js"></script>
+<script src="assets/js/bridge.js"></script>
+<script src="assets/js/builder.js"></script>
+<script src="assets/js/printer.js"></script>
+
+<script>
+  // Tabs toggle
+  const tabB = document.getElementById('tabBuilder');
+  const tabP = document.getElementById('tabPrinter');
+  const secB = document.getElementById('secBuilder');
+  const secP = document.getElementById('secPrinter');
+  tabB.onclick=()=>{tabB.classList.add('active');tabP.classList.remove('active');secB.classList.remove('hidden');secP.classList.add('hidden');}
+  tabP.onclick=()=>{tabP.classList.add('active');tabB.classList.remove('active');secP.classList.remove('hidden');secB.classList.add('hidden');}
+
+  // Apply UI config
+  (function(){
+    const C = window.App?.UI || {};
+    document.getElementById('appTitle').textContent = C.title || 'QR Suite';
+    document.getElementById('appSubtitle').textContent = C.subtitle || 'Builder + Printer';
+  })();
+
+  // Init modules
+  window.App.Builder.init();
+  window.App.Printer.init();
+</script>
+</body>
+</html>
