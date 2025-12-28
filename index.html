@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate QR Code Generator | Custom Designs</title>
+    <title>Ultimate QR Code Generator | All Features</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/qrcode-styling@1.5.0/lib/qrcode-styling.js"></script>
     <style>
@@ -22,124 +22,129 @@
             --success: #1d976c;
             --warning: #f7971e;
             --danger: #e74c3c;
-            --border-radius: 16px;
+            --border-radius: 20px;
         }
 
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: #333;
             min-height: 100vh;
             padding: 20px;
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
         }
 
         header {
             text-align: center;
-            padding: 40px 30px;
-            background: white;
+            padding: 50px 40px;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: var(--border-radius);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
             margin-bottom: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .logo-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 20px;
-            margin-bottom: 20px;
+            gap: 25px;
+            margin-bottom: 25px;
         }
 
         .logo {
-            font-size: 3.5rem;
+            font-size: 4.5rem;
             color: var(--primary);
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 5px 15px rgba(106, 17, 203, 0.3));
         }
 
         header h1 {
-            font-size: 3.2rem;
-            margin-bottom: 15px;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
             background: linear-gradient(to right, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-weight: 800;
-            letter-spacing: -0.5px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         header p {
-            font-size: 1.25rem;
-            max-width: 800px;
+            font-size: 1.3rem;
+            max-width: 900px;
             margin: 0 auto;
-            color: #666;
-            line-height: 1.6;
+            color: #555;
+            line-height: 1.7;
         }
 
         .app-container {
             display: grid;
-            grid-template-columns: 1fr 1.2fr;
+            grid-template-columns: 1.1fr 1fr;
             gap: 40px;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
         }
 
-        @media (max-width: 1100px) {
+        @media (max-width: 1200px) {
             .app-container {
                 grid-template-columns: 1fr;
             }
         }
 
         .settings-panel {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: var(--border-radius);
-            padding: 35px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
             overflow-y: auto;
-            max-height: 900px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-height: 950px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
         }
 
         .preview-panel {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: var(--border-radius);
-            padding: 35px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
         }
 
         .panel-title {
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             color: var(--dark);
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid #f0f0f0;
+            margin-bottom: 35px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid rgba(106, 17, 203, 0.2);
             display: flex;
             align-items: center;
             gap: 15px;
-            font-weight: 700;
+            font-weight: 800;
         }
 
         .panel-title i {
-            color: var(--primary);
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            font-size: 1.5rem;
         }
 
         .section {
-            margin-bottom: 35px;
-            padding-bottom: 30px;
-            border-bottom: 2px solid #f5f5f5;
+            margin-bottom: 40px;
+            padding-bottom: 35px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+            position: relative;
         }
 
         .section:last-child {
@@ -147,43 +152,47 @@
         }
 
         .section-title {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             color: var(--dark);
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-weight: 600;
+            gap: 15px;
+            font-weight: 700;
         }
 
         .section-title i {
             color: var(--primary);
-            width: 28px;
-            font-size: 1.2rem;
+            width: 30px;
+            font-size: 1.3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .input-group {
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
 
         .input-group label {
             display: block;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             font-weight: 600;
-            color: #555;
-            font-size: 1.05rem;
+            color: #444;
+            font-size: 1.1rem;
         }
 
         .input-group input, 
         .input-group select,
         .input-group textarea {
             width: 100%;
-            padding: 16px 20px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 1.05rem;
+            padding: 18px 25px;
+            border: 2px solid #e1e5eb;
+            border-radius: 15px;
+            font-size: 1.1rem;
             transition: all 0.3s ease;
-            background: #fafafa;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
 
         .input-group input:focus, 
@@ -192,19 +201,20 @@
             border-color: var(--primary);
             outline: none;
             background: white;
-            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.1);
+            box-shadow: 0 8px 25px rgba(106, 17, 203, 0.15);
+            transform: translateY(-2px);
         }
 
         .input-group textarea {
-            height: 140px;
+            height: 160px;
             resize: vertical;
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
         .number-input-container {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
         }
 
         .number-input {
@@ -214,214 +224,249 @@
 
         .number-input input {
             width: 100%;
-            padding: 16px 20px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 1.05rem;
-            background: #fafafa;
+            padding: 18px 25px;
+            border: 2px solid #e1e5eb;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
 
         .unit {
             position: absolute;
-            right: 20px;
+            right: 25px;
             top: 50%;
             transform: translateY(-50%);
-            color: #777;
-            font-weight: 600;
+            color: #666;
+            font-weight: 700;
+            font-size: 1.1rem;
         }
 
         .color-picker-container {
             display: flex;
             gap: 20px;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .color-picker {
-            width: 70px;
-            height: 50px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
+            width: 80px;
+            height: 55px;
+            border: 3px solid #e1e5eb;
+            border-radius: 15px;
             cursor: pointer;
             padding: 0;
-            background: #fafafa;
+            background: white;
             transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .color-picker:hover {
             border-color: var(--primary);
             transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(106, 17, 203, 0.2);
         }
 
         .color-input {
             flex: 1;
-            padding: 16px 20px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 1.05rem;
-            background: #fafafa;
-            font-family: monospace;
-            font-weight: 600;
+            min-width: 200px;
+            padding: 18px 25px;
+            border: 2px solid #e1e5eb;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.9);
+            font-family: 'Courier New', monospace;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
 
         .design-options {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
-            margin-top: 15px;
+            margin-top: 20px;
         }
 
         .design-option {
             text-align: center;
-            padding: 22px 15px;
-            border: 3px solid #e0e0e0;
-            border-radius: 15px;
+            padding: 25px 15px;
+            border: 3px solid #e1e5eb;
+            border-radius: 18px;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
-            background: #fafafa;
+            gap: 15px;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
         }
 
         .design-option:hover {
-            background-color: #f0f0f0;
-            border-color: #ccc;
+            background-color: #f8f9fa;
+            border-color: #d1d9e6;
             transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
         }
 
         .design-option.active {
             border-color: var(--primary);
-            background: linear-gradient(135deg, rgba(106, 17, 203, 0.1), rgba(37, 117, 252, 0.1));
+            background: linear-gradient(135deg, rgba(106, 17, 203, 0.15), rgba(37, 117, 252, 0.15));
             color: var(--primary);
             font-weight: bold;
-            box-shadow: 0 10px 20px rgba(106, 17, 203, 0.15);
+            box-shadow: 0 12px 25px rgba(106, 17, 203, 0.25);
+            transform: translateY(-5px);
         }
 
         .design-option i {
-            font-size: 1.8rem;
+            font-size: 2rem;
         }
 
         .shape-options {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 20px;
-            margin-top: 15px;
+            margin-top: 20px;
         }
 
         .shape-option {
             text-align: center;
-            padding: 22px 10px;
-            border: 3px solid #e0e0e0;
-            border-radius: 15px;
+            padding: 25px 10px;
+            border: 3px solid #e1e5eb;
+            border-radius: 18px;
             cursor: pointer;
             transition: all 0.3s ease;
-            background: #fafafa;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
         }
 
         .shape-option:hover {
-            background-color: #f0f0f0;
-            border-color: #ccc;
+            background-color: #f8f9fa;
+            border-color: #d1d9e6;
             transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
         }
 
         .shape-option.active {
             border-color: var(--primary);
-            background: linear-gradient(135deg, rgba(106, 17, 203, 0.1), rgba(37, 117, 252, 0.1));
+            background: linear-gradient(135deg, rgba(106, 17, 203, 0.15), rgba(37, 117, 252, 0.15));
             color: var(--primary);
             font-weight: bold;
-            box-shadow: 0 10px 20px rgba(106, 17, 203, 0.15);
+            box-shadow: 0 12px 25px rgba(106, 17, 203, 0.25);
+            transform: translateY(-5px);
+        }
+
+        .shape-option i {
+            font-size: 2rem;
+            margin-bottom: 10px;
         }
 
         .format-options {
             display: flex;
             gap: 20px;
-            margin-top: 15px;
+            margin-top: 20px;
         }
 
         .format-option {
             flex: 1;
             text-align: center;
-            padding: 20px;
-            border: 3px solid #e0e0e0;
-            border-radius: 15px;
+            padding: 25px 20px;
+            border: 3px solid #e1e5eb;
+            border-radius: 18px;
             cursor: pointer;
             transition: all 0.3s ease;
-            background: #fafafa;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
         }
 
         .format-option:hover {
-            background-color: #f0f0f0;
-            border-color: #ccc;
+            background-color: #f8f9fa;
+            border-color: #d1d9e6;
             transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
         }
 
         .format-option.active {
             border-color: var(--primary);
-            background: linear-gradient(135deg, rgba(106, 17, 203, 0.1), rgba(37, 117, 252, 0.1));
+            background: linear-gradient(135deg, rgba(106, 17, 203, 0.15), rgba(37, 117, 252, 0.15));
             color: var(--primary);
             font-weight: bold;
-            box-shadow: 0 10px 20px rgba(106, 17, 203, 0.15);
+            box-shadow: 0 12px 25px rgba(106, 17, 203, 0.25);
+            transform: translateY(-5px);
         }
 
         .logo-upload-container {
-            border: 3px dashed #e0e0e0;
-            border-radius: 15px;
-            padding: 40px;
+            border: 3px dashed #e1e5eb;
+            border-radius: 18px;
+            padding: 50px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-bottom: 25px;
-            background: #fafafa;
+            margin-bottom: 30px;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
         }
 
         .logo-upload-container:hover {
             border-color: var(--primary);
-            background-color: #f5f5f5;
+            background-color: rgba(106, 17, 203, 0.05);
             transform: scale(1.02);
+            box-shadow: 0 12px 25px rgba(106, 17, 203, 0.15);
         }
 
         .logo-upload-container i {
-            font-size: 3.5rem;
-            color: #aaa;
-            margin-bottom: 20px;
+            font-size: 4rem;
+            color: #bbb;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .logo-upload-container:hover i {
+            color: var(--primary);
         }
 
         .logo-preview {
             display: none;
-            margin-top: 25px;
+            margin-top: 30px;
             text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .logo-preview img {
-            max-width: 180px;
-            max-height: 180px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            border: 3px solid #e0e0e0;
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border: 3px solid #e1e5eb;
         }
 
         .remove-logo {
-            margin-top: 20px;
-            padding: 12px 25px;
-            background: var(--danger);
+            margin-top: 25px;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, var(--danger), #c0392b);
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             cursor: pointer;
-            font-weight: 600;
-            font-size: 1rem;
+            font-weight: 700;
+            font-size: 1.1rem;
             transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
         }
 
         .remove-logo:hover {
-            background: #c0392b;
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+            box-shadow: 0 10px 20px rgba(231, 76, 60, 0.4);
         }
 
         .quality-option {
             display: none;
+            animation: fadeIn 0.5s ease;
         }
 
         .quality-option.active {
@@ -430,27 +475,28 @@
 
         .generate-btn {
             width: 100%;
-            padding: 22px;
+            padding: 25px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             border: none;
-            border-radius: 15px;
-            font-size: 1.3rem;
-            font-weight: 700;
+            border-radius: 18px;
+            font-size: 1.4rem;
+            font-weight: 800;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 15px;
+            margin-top: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 15px;
-            letter-spacing: 0.5px;
-            box-shadow: 0 10px 20px rgba(106, 17, 203, 0.2);
+            gap: 20px;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 25px rgba(106, 17, 203, 0.3);
+            text-transform: uppercase;
         }
 
         .generate-btn:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(106, 17, 203, 0.3);
+            box-shadow: 0 20px 40px rgba(106, 17, 203, 0.4);
         }
 
         .generate-btn:active {
@@ -458,23 +504,24 @@
         }
 
         .qr-container {
-            width: 380px;
-            height: 380px;
+            width: 420px;
+            height: 420px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 3px dashed #e0e0e0;
-            border-radius: 20px;
-            margin-bottom: 30px;
-            padding: 25px;
-            background: #fafafa;
+            border: 4px dashed #e1e5eb;
+            border-radius: 25px;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: white;
             position: relative;
             transition: all 0.3s ease;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
         }
 
         .qr-container:hover {
             border-color: var(--primary);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
         }
 
         #qrcode {
@@ -487,39 +534,41 @@
 
         .placeholder-text {
             text-align: center;
-            color: #888;
+            color: #999;
             font-style: italic;
+            font-size: 1.1rem;
         }
 
         .download-options {
             display: flex;
-            gap: 20px;
+            gap: 25px;
             flex-wrap: wrap;
             justify-content: center;
-            margin-top: 30px;
+            margin-top: 40px;
         }
 
         .download-btn {
-            padding: 18px 30px;
+            padding: 22px 35px;
             background: var(--dark);
             color: white;
             border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 12px;
-            min-width: 180px;
+            gap: 15px;
+            min-width: 200px;
             justify-content: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
 
         .download-btn:hover {
             background: #1a252f;
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
         }
 
         .download-btn.png {
@@ -537,66 +586,76 @@
         .feature-badges {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 20px;
             justify-content: center;
-            margin-top: 30px;
+            margin-top: 40px;
         }
 
         .badge {
-            padding: 12px 20px;
+            padding: 15px 25px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 600;
-            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.2);
+            font-size: 1.1rem;
+            font-weight: 700;
+            box-shadow: 0 8px 20px rgba(106, 17, 203, 0.25);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         footer {
             text-align: center;
-            color: var(--dark);
-            padding: 40px 30px;
-            margin-top: 40px;
-            background: white;
+            color: white;
+            padding: 50px 40px;
+            margin-top: 50px;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: var(--border-radius);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
         }
 
         .tab-container {
             display: flex;
-            border-bottom: 3px solid #f0f0f0;
-            margin-bottom: 30px;
-            background: #fafafa;
-            border-radius: 12px;
-            padding: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            margin-bottom: 35px;
+            padding: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
         .tab {
             flex: 1;
-            padding: 18px 25px;
+            padding: 22px 30px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 700;
             color: #666;
-            border-radius: 10px;
+            border-radius: 12px;
             transition: all 0.3s ease;
             text-align: center;
-            font-size: 1.05rem;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
         }
 
         .tab:hover {
-            background: #f0f0f0;
+            background: rgba(106, 17, 203, 0.1);
             color: var(--primary);
         }
 
         .tab.active {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.2);
+            box-shadow: 0 8px 20px rgba(106, 17, 203, 0.3);
         }
 
         .tab-content {
             display: none;
+            animation: fadeIn 0.5s ease;
         }
 
         .tab-content.active {
@@ -606,28 +665,30 @@
         .color-presets {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 15px;
+            gap: 20px;
+            margin-top: 20px;
         }
 
         .color-preset {
-            height: 50px;
-            border-radius: 12px;
+            height: 60px;
+            border-radius: 15px;
             cursor: pointer;
-            border: 3px solid transparent;
+            border: 4px solid transparent;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
         }
 
         .color-preset:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
         }
 
         .color-preset.active {
             border-color: var(--dark);
             transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
         }
 
         .preset1 { background: linear-gradient(135deg, #000000, #333333); }
@@ -638,48 +699,54 @@
         .preset6 { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
 
         @media (max-width: 768px) {
-            .design-options, .shape-options {
+            .design-options, .shape-options, .color-presets {
                 grid-template-columns: repeat(2, 1fr);
             }
             
             .qr-container {
-                width: 300px;
-                height: 300px;
+                width: 320px;
+                height: 320px;
             }
             
             header h1 {
-                font-size: 2.5rem;
+                font-size: 2.8rem;
             }
             
             .app-container {
-                gap: 25px;
+                gap: 30px;
             }
             
             .download-btn {
-                min-width: 150px;
-                padding: 15px 20px;
+                min-width: 170px;
+                padding: 20px 25px;
+            }
+            
+            .format-options {
+                flex-direction: column;
             }
         }
 
         .reset-btn {
-            padding: 18px 25px;
-            background: #f8f9fa;
+            padding: 22px 30px;
+            background: white;
             color: var(--dark);
-            border: 3px solid #e0e0e0;
-            border-radius: 12px;
-            font-weight: 600;
+            border: 3px solid #e1e5eb;
+            border-radius: 15px;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 25px;
+            margin-top: 30px;
             width: 100%;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
         }
 
         .reset-btn:hover {
-            background: #e9ecef;
-            border-color: #ccc;
+            background: #f8f9fa;
+            border-color: var(--primary);
+            color: var(--primary);
             transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
         }
         
         .generating-overlay {
@@ -693,19 +760,20 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            border-radius: 20px;
+            border-radius: 25px;
             z-index: 10;
             display: none;
+            animation: fadeIn 0.3s ease;
         }
         
         .spinner {
-            width: 60px;
-            height: 60px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid var(--primary);
+            width: 70px;
+            height: 70px;
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid var(--primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         
         @keyframes spin {
@@ -718,50 +786,56 @@
         }
         
         .input-with-unit input {
-            padding-right: 60px;
+            padding-right: 70px;
         }
         
         .input-with-unit .unit {
             position: absolute;
-            right: 20px;
+            right: 25px;
             top: 50%;
             transform: translateY(-50%);
             color: #666;
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 1.1rem;
             pointer-events: none;
         }
         
         .info-text {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: #777;
-            margin-top: 8px;
+            margin-top: 10px;
             font-style: italic;
+            padding-left: 5px;
         }
         
         .dimension-inputs {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 25px;
         }
         
         .aspect-ratio-lock {
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin-top: 15px;
+            gap: 15px;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            border: 2px solid #e1e5eb;
         }
         
         .lock-btn {
             background: #f0f0f0;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            width: 40px;
-            height: 40px;
+            border: 3px solid #ddd;
+            border-radius: 10px;
+            width: 45px;
+            height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: #666;
             transition: all 0.3s ease;
         }
@@ -770,35 +844,145 @@
             background: var(--primary);
             color: white;
             border-color: var(--primary);
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.3);
         }
         
         .status-message {
-            padding: 12px 20px;
-            border-radius: 10px;
-            margin-top: 15px;
+            padding: 18px 25px;
+            border-radius: 15px;
+            margin-top: 20px;
             text-align: center;
-            font-weight: 600;
+            font-weight: 700;
             display: none;
+            animation: fadeIn 0.3s ease;
+            font-size: 1.1rem;
         }
         
         .status-success {
-            background: rgba(29, 151, 108, 0.1);
+            background: linear-gradient(135deg, rgba(29, 151, 108, 0.15), rgba(147, 249, 185, 0.15));
             color: var(--success);
-            border: 2px solid rgba(29, 151, 108, 0.2);
+            border: 2px solid rgba(29, 151, 108, 0.3);
         }
         
         .status-error {
-            background: rgba(231, 76, 60, 0.1);
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.15), rgba(192, 57, 43, 0.15));
             color: var(--danger);
-            border: 2px solid rgba(231, 76, 60, 0.2);
+            border: 2px solid rgba(231, 76, 60, 0.3);
+        }
+        
+        .preview-controls {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .preview-btn {
+            padding: 15px 25px;
+            background: white;
+            border: 3px solid #e1e5eb;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            color: #555;
+            transition: all 0.3s ease;
+            min-width: 120px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .preview-btn:hover {
+            background: #f8f9fa;
+            border-color: #d1d9e6;
+            transform: translateY(-3px);
+        }
+        
+        .preview-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 8px 20px rgba(106, 17, 203, 0.3);
         }
         
         .qr-background-preview {
             width: 100%;
-            height: 60px;
-            border-radius: 10px;
+            height: 70px;
+            border-radius: 15px;
+            margin-top: 20px;
+            border: 3px solid #e1e5eb;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+        
+        .option-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+        
+        .eye-style-options {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .eye-style-option {
+            text-align: center;
+            padding: 20px 10px;
+            border: 3px solid #e1e5eb;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .eye-style-option:hover {
+            border-color: #d1d9e6;
+            transform: translateY(-3px);
+        }
+        
+        .eye-style-option.active {
+            border-color: var(--primary);
+            background: rgba(106, 17, 203, 0.1);
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .gradient-options {
+            display: flex;
+            gap: 20px;
             margin-top: 15px;
-            border: 2px solid #e0e0e0;
+        }
+        
+        .gradient-option {
+            flex: 1;
+            text-align: center;
+            padding: 20px 15px;
+            border: 3px solid #e1e5eb;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .gradient-option:hover {
+            border-color: #d1d9e6;
+            transform: translateY(-3px);
+        }
+        
+        .gradient-option.active {
+            border-color: var(--primary);
+            background: rgba(106, 17, 203, 0.1);
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #e1e5eb, transparent);
+            margin: 40px 0;
         }
     </style>
 </head>
@@ -809,7 +993,7 @@
                 <i class="fas fa-qrcode logo"></i>
                 <div>
                     <h1>Ultimate QR Code Generator</h1>
-                    <p>Create stunning QR codes with custom designs, shapes, colors, and logos. Fully responsive and ready to deploy on GitHub Pages.</p>
+                    <p>Create stunning, customizable QR codes with 15+ design styles, shapes, gradients, logos, and multiple export formats</p>
                 </div>
             </div>
             
@@ -817,8 +1001,9 @@
                 <div class="badge"><i class="fas fa-palette"></i> 15+ Design Styles</div>
                 <div class="badge"><i class="fas fa-shapes"></i> 8 Shape Types</div>
                 <div class="badge"><i class="fas fa-image"></i> Logo Embedding</div>
-                <div class="badge"><i class="fas fa-download"></i> Multiple Formats</div>
-                <div class="badge"><i class="fas fa-mobile-alt"></i> Fully Responsive</div>
+                <div class="badge"><i class="fas fa-gradient"></i> Gradient Colors</div>
+                <div class="badge"><i class="fas fa-eye"></i> Custom Eye Styles</div>
+                <div class="badge"><i class="fas fa-download"></i> 3 Export Formats</div>
             </div>
         </header>
 
@@ -826,16 +1011,16 @@
             <div class="settings-panel">
                 <div class="tab-container">
                     <div class="tab active" data-tab="basic">
-                        <i class="fas fa-sliders-h"></i> Basic
+                        <i class="fas fa-cog"></i> Basic Settings
                     </div>
                     <div class="tab" data-tab="design">
-                        <i class="fas fa-palette"></i> Design
+                        <i class="fas fa-paint-brush"></i> Design & Colors
                     </div>
                     <div class="tab" data-tab="logo">
-                        <i class="fas fa-image"></i> Logo
+                        <i class="fas fa-camera"></i> Logo & Image
                     </div>
                     <div class="tab" data-tab="output">
-                        <i class="fas fa-download"></i> Output
+                        <i class="fas fa-file-export"></i> Output
                     </div>
                 </div>
                 
@@ -845,49 +1030,65 @@
                     
                     <div class="section">
                         <div class="input-group">
-                            <label for="qrText"><i class="fas fa-link"></i> Text or URL</label>
-                            <textarea id="qrText" placeholder="Enter text, URL, or any content you want to encode...">https://github.com</textarea>
+                            <label for="qrText"><i class="fas fa-link"></i> Text or URL to Encode</label>
+                            <textarea id="qrText" placeholder="Enter text, URL, email, phone number, or any content you want to encode in QR code...">https://github.com</textarea>
                         </div>
                         
                         <div class="dimension-inputs">
                             <div class="input-group">
-                                <label for="qrSize"><i class="fas fa-expand-alt"></i> Size</label>
+                                <label for="qrWidth"><i class="fas fa-arrows-alt-h"></i> Width</label>
                                 <div class="input-with-unit">
-                                    <input type="number" id="qrSize" min="200" max="2000" value="380">
+                                    <input type="number" id="qrWidth" min="200" max="2000" value="420">
                                     <span class="unit">px</span>
                                 </div>
-                                <div class="info-text">QR Code will be square (same width & height)</div>
+                                <div class="info-text">Width of QR code (200-2000px)</div>
                             </div>
                             
                             <div class="input-group">
-                                <label for="qrMargin"><i class="fas fa-border-all"></i> Margin</label>
+                                <label for="qrHeight"><i class="fas fa-arrows-alt-v"></i> Height</label>
                                 <div class="input-with-unit">
-                                    <input type="number" id="qrMargin" min="0" max="100" value="10">
+                                    <input type="number" id="qrHeight" min="200" max="2000" value="420">
                                     <span class="unit">px</span>
                                 </div>
-                                <div class="info-text">White space around QR code</div>
+                                <div class="info-text">Height of QR code (200-2000px)</div>
                             </div>
+                        </div>
+                        
+                        <div class="aspect-ratio-lock">
+                            <div class="lock-btn active" id="lockAspectRatio">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <span style="font-weight: 700; color: #555;">Lock Aspect Ratio (1:1)</span>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="qrMargin"><i class="fas fa-border-all"></i> White Margin Around QR</label>
+                            <div class="input-with-unit">
+                                <input type="number" id="qrMargin" min="0" max="100" value="10">
+                                <span class="unit">px</span>
+                            </div>
+                            <div class="info-text">White space/border around QR code (0-100px)</div>
                         </div>
                         
                         <div class="input-group">
                             <label for="errorCorrection"><i class="fas fa-shield-alt"></i> Error Correction Level</label>
                             <select id="errorCorrection">
-                                <option value="L">Low (7% recovery)</option>
-                                <option value="M" selected>Medium (15% recovery)</option>
-                                <option value="Q">Quartile (25% recovery)</option>
-                                <option value="H">High (30% recovery)</option>
+                                <option value="L">Low (7% recovery) - Smallest size</option>
+                                <option value="M" selected>Medium (15% recovery) - Balanced</option>
+                                <option value="Q">Quartile (25% recovery) - Good recovery</option>
+                                <option value="H">High (30% recovery) - Maximum recovery</option>
                             </select>
-                            <div class="info-text">Higher error correction allows QR code to be scanned even if damaged.</div>
+                            <div class="info-text">Higher error correction allows QR to be scanned even if damaged (increases QR size)</div>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Design Settings Tab -->
                 <div class="tab-content" id="design-tab">
-                    <h2 class="panel-title"><i class="fas fa-paint-brush"></i> Design Customization</h2>
+                    <h2 class="panel-title"><i class="fas fa-paint-brush"></i> Design & Colors</h2>
                     
                     <div class="section">
-                        <div class="section-title"><i class="fas fa-shapes"></i> QR Code Style</div>
+                        <div class="section-title"><i class="fas fa-shapes"></i> QR Code Dot Style</div>
                         <div class="design-options">
                             <div class="design-option active" data-style="square">
                                 <i class="fas fa-square"></i>
@@ -917,10 +1118,48 @@
                     </div>
                     
                     <div class="section">
-                        <div class="section-title"><i class="fas fa-eye-dropper"></i> Colors</div>
+                        <div class="section-title"><i class="fas fa-star"></i> Shape Type</div>
+                        <div class="shape-options">
+                            <div class="shape-option active" data-shape="square">
+                                <i class="fas fa-square"></i>
+                                <div>Square</div>
+                            </div>
+                            <div class="shape-option" data-shape="circle">
+                                <i class="fas fa-circle"></i>
+                                <div>Circle</div>
+                            </div>
+                            <div class="shape-option" data-shape="rounded">
+                                <i class="fas fa-square-rounded"></i>
+                                <div>Rounded</div>
+                            </div>
+                            <div class="shape-option" data-shape="star">
+                                <i class="fas fa-star"></i>
+                                <div>Star</div>
+                            </div>
+                            <div class="shape-option" data-shape="heart">
+                                <i class="fas fa-heart"></i>
+                                <div>Heart</div>
+                            </div>
+                            <div class="shape-option" data-shape="diamond">
+                                <i class="fas fa-gem"></i>
+                                <div>Diamond</div>
+                            </div>
+                            <div class="shape-option" data-shape="flower">
+                                <i class="fas fa-feather-alt"></i>
+                                <div>Flower</div>
+                            </div>
+                            <div class="shape-option" data-shape="triangle">
+                                <i class="fas fa-play"></i>
+                                <div>Triangle</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title"><i class="fas fa-fill-drip"></i> Colors</div>
                         
                         <div class="input-group">
-                            <label>Color Presets</label>
+                            <label>Quick Color Presets</label>
                             <div class="color-presets">
                                 <div class="color-preset preset1 active" data-preset="1"></div>
                                 <div class="color-preset preset2" data-preset="2"></div>
@@ -931,26 +1170,84 @@
                             </div>
                         </div>
                         
-                        <div class="input-group">
-                            <label for="foregroundColor">Foreground Color</label>
-                            <div class="color-picker-container">
-                                <input type="color" id="foregroundColor" class="color-picker" value="#000000">
-                                <input type="text" id="foregroundColorText" class="color-input" value="#000000">
+                        <div class="option-grid">
+                            <div class="input-group">
+                                <label for="foregroundColor">QR Code Color</label>
+                                <div class="color-picker-container">
+                                    <input type="color" id="foregroundColor" class="color-picker" value="#000000">
+                                    <input type="text" id="foregroundColorText" class="color-input" value="#000000">
+                                </div>
+                                <div class="qr-background-preview" id="foregroundPreview" style="background: #000000;"></div>
                             </div>
-                            <div class="qr-background-preview" id="foregroundPreview" style="background: #000000;"></div>
+                            
+                            <div class="input-group">
+                                <label for="backgroundColor">Background Color</label>
+                                <div class="color-picker-container">
+                                    <input type="color" id="backgroundColor" class="color-picker" value="#FFFFFF">
+                                    <input type="text" id="backgroundColorText" class="color-input" value="#FFFFFF">
+                                </div>
+                                <div class="qr-background-preview" id="backgroundPreview" style="background: #FFFFFF;"></div>
+                            </div>
                         </div>
                         
                         <div class="input-group">
-                            <label for="backgroundColor">Background Color</label>
-                            <div class="color-picker-container">
-                                <input type="color" id="backgroundColor" class="color-picker" value="#FFFFFF">
-                                <input type="text" id="backgroundColorText" class="color-input" value="#FFFFFF">
+                            <label>Gradient Type</label>
+                            <div class="gradient-options">
+                                <div class="gradient-option active" data-gradient="none">
+                                    <i class="fas fa-times"></i>
+                                    <div>No Gradient</div>
+                                </div>
+                                <div class="gradient-option" data-gradient="linear">
+                                    <i class="fas fa-sliders-h"></i>
+                                    <div>Linear</div>
+                                </div>
+                                <div class="gradient-option" data-gradient="radial">
+                                    <i class="fas fa-bullseye"></i>
+                                    <div>Radial</div>
+                                </div>
                             </div>
-                            <div class="qr-background-preview" id="backgroundPreview" style="background: #FFFFFF;"></div>
+                        </div>
+                        
+                        <div class="input-group" id="gradientColorContainer" style="display:none;">
+                            <label for="gradientColor">Gradient Color</label>
+                            <div class="color-picker-container">
+                                <input type="color" id="gradientColor" class="color-picker" value="#6a11cb">
+                                <input type="text" id="gradientColorText" class="color-input" value="#6a11cb">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title"><i class="fas fa-eye"></i> Eye (Corner) Design</div>
+                        
+                        <div class="input-group">
+                            <label>Eye Style</label>
+                            <div class="eye-style-options">
+                                <div class="eye-style-option active" data-eye="square">
+                                    <i class="fas fa-square"></i>
+                                    <div>Square</div>
+                                </div>
+                                <div class="eye-style-option" data-eye="circle">
+                                    <i class="fas fa-circle"></i>
+                                    <div>Circle</div>
+                                </div>
+                                <div class="eye-style-option" data-eye="rounded">
+                                    <i class="fas fa-square-rounded"></i>
+                                    <div>Rounded</div>
+                                </div>
+                                <div class="eye-style-option" data-eye="flower">
+                                    <i class="fas fa-feather-alt"></i>
+                                    <div>Flower</div>
+                                </div>
+                                <div class="eye-style-option" data-eye="diamond">
+                                    <i class="fas fa-gem"></i>
+                                    <div>Diamond</div>
+                                </div>
+                            </div>
                         </div>
                         
                         <div class="input-group">
-                            <label for="eyeColor">Eye (Corner) Color</label>
+                            <label for="eyeColor">Eye Color</label>
                             <div class="color-picker-container">
                                 <input type="color" id="eyeColor" class="color-picker" value="#000000">
                                 <input type="text" id="eyeColorText" class="color-input" value="#000000">
@@ -965,37 +1262,50 @@
                     
                     <div class="section">
                         <div class="input-group">
-                            <label><i class="fas fa-upload"></i> Upload Logo</label>
+                            <label><i class="fas fa-upload"></i> Upload Logo/Image</label>
                             <div class="logo-upload-container" id="logoUpload">
                                 <i class="fas fa-cloud-upload-alt"></i>
-                                <p>Click to upload a logo image</p>
-                                <p><small>PNG, JPG or SVG (Max: 1MB)</small></p>
+                                <p>Click or drag to upload logo image</p>
+                                <p><small>PNG, JPG, JPEG or SVG format (Max: 2MB)</small></p>
                                 <input type="file" id="logoFile" accept=".png,.jpg,.jpeg,.svg" style="display:none;">
                             </div>
                             
                             <div class="logo-preview" id="logoPreview">
-                                <p>Logo Preview:</p>
+                                <p style="font-weight: 700; color: #555; margin-bottom: 15px;">Logo Preview:</p>
                                 <img id="logoPreviewImage" src="" alt="Logo Preview">
-                                <button class="remove-logo" id="removeLogo">Remove Logo</button>
+                                <button class="remove-logo" id="removeLogo">
+                                    <i class="fas fa-trash"></i> Remove Logo
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="dimension-inputs">
+                            <div class="input-group">
+                                <label for="logoSize"><i class="fas fa-expand-alt"></i> Logo Size</label>
+                                <div class="input-with-unit">
+                                    <input type="number" id="logoSize" min="10" max="50" value="20">
+                                    <span class="unit">%</span>
+                                </div>
+                                <div class="info-text">Percentage of QR code size (10-50%)</div>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="logoMargin"><i class="fas fa-border-all"></i> Logo Margin</label>
+                                <div class="input-with-unit">
+                                    <input type="number" id="logoMargin" min="0" max="20" value="5">
+                                    <span class="unit">px</span>
+                                </div>
+                                <div class="info-text">Padding around logo (0-20px)</div>
                             </div>
                         </div>
                         
                         <div class="input-group">
-                            <label for="logoSize"><i class="fas fa-expand-alt"></i> Logo Size</label>
-                            <div class="input-with-unit">
-                                <input type="number" id="logoSize" min="10" max="50" value="20">
-                                <span class="unit">%</span>
+                            <label for="logoBackground"><i class="fas fa-square"></i> Logo Background Color</label>
+                            <div class="color-picker-container">
+                                <input type="color" id="logoBackground" class="color-picker" value="#FFFFFF">
+                                <input type="text" id="logoBackgroundText" class="color-input" value="#FFFFFF">
                             </div>
-                            <div class="info-text">Percentage of QR code size (10-50%)</div>
-                        </div>
-                        
-                        <div class="input-group">
-                            <label for="logoMargin"><i class="fas fa-border-all"></i> Logo Margin</label>
-                            <div class="input-with-unit">
-                                <input type="number" id="logoMargin" min="0" max="20" value="5">
-                                <span class="unit">px</span>
-                            </div>
-                            <div class="info-text">Padding around logo (0-20px)</div>
+                            <div class="info-text">Background color behind the logo (useful for transparent logos)</div>
                         </div>
                     </div>
                 </div>
@@ -1005,16 +1315,22 @@
                     <h2 class="panel-title"><i class="fas fa-file-export"></i> Output Settings</h2>
                     
                     <div class="section">
-                        <div class="section-title"><i class="fas fa-file-image"></i> Output Format</div>
+                        <div class="section-title"><i class="fas fa-file-image"></i> Export Format</div>
                         <div class="format-options">
                             <div class="format-option active" data-format="png">
-                                <i class="fas fa-file-image"></i> PNG
+                                <i class="fas fa-file-image"></i>
+                                <div>PNG</div>
+                                <small>Best quality</small>
                             </div>
                             <div class="format-option" data-format="jpg">
-                                <i class="fas fa-file-image"></i> JPG
+                                <i class="fas fa-file-image"></i>
+                                <div>JPG</div>
+                                <small>Smaller file</small>
                             </div>
                             <div class="format-option" data-format="svg">
-                                <i class="fas fa-file-code"></i> SVG
+                                <i class="fas fa-file-code"></i>
+                                <div>SVG</div>
+                                <small>Vector format</small>
                             </div>
                         </div>
                     </div>
@@ -1022,18 +1338,18 @@
                     <div class="section">
                         <div class="quality-option active" id="pngQualityOption">
                             <div class="input-group">
-                                <label for="pngQuality"><i class="fas fa-tachometer-alt"></i> PNG Quality</label>
+                                <label for="pngQuality"><i class="fas fa-tachometer-alt"></i> PNG Compression Level</label>
                                 <div class="input-with-unit">
                                     <input type="number" id="pngQuality" min="0" max="9" value="3">
                                     <span class="unit">(0-9)</span>
                                 </div>
-                                <div class="info-text">0 = no compression (best quality), 9 = maximum compression</div>
+                                <div class="info-text">0 = no compression (best quality), 9 = maximum compression (smallest file)</div>
                             </div>
                         </div>
                         
                         <div class="quality-option" id="jpgQualityOption">
                             <div class="input-group">
-                                <label for="jpgQuality"><i class="fas fa-tachometer-alt"></i> JPG Quality</label>
+                                <label for="jpgQuality"><i class="fas fa-tachometer-alt"></i> JPG Quality Level</label>
                                 <div class="input-with-unit">
                                     <input type="number" id="jpgQuality" min="1" max="100" value="90">
                                     <span class="unit">(1-100)</span>
@@ -1046,11 +1362,11 @@
                     <div class="status-message" id="statusMessage"></div>
                     
                     <button id="generateBtn" class="generate-btn">
-                        <i class="fas fa-bolt"></i> Generate QR Code
+                        <i class="fas fa-bolt"></i> GENERATE QR CODE
                     </button>
                     
                     <button id="resetBtn" class="reset-btn">
-                        <i class="fas fa-redo"></i> Reset to Default Settings
+                        <i class="fas fa-redo"></i> RESET ALL SETTINGS
                     </button>
                 </div>
             </div>
@@ -1061,40 +1377,50 @@
                 <div class="qr-container">
                     <div class="generating-overlay" id="generatingOverlay">
                         <div class="spinner"></div>
-                        <p>Generating QR Code...</p>
+                        <p style="font-size: 1.2rem; font-weight: 700; color: #555;">Generating QR Code...</p>
                     </div>
                     <div id="qrcode"></div>
                     <div id="placeholder" class="placeholder-text">
-                        <i class="fas fa-qrcode fa-6x" style="color: #eee; margin-bottom: 20px;"></i>
+                        <i class="fas fa-qrcode fa-7x" style="color: #e1e5eb; margin-bottom: 25px;"></i>
                         <p>Your custom QR code will appear here</p>
-                        <p><small>Adjust settings and click "Generate QR Code"</small></p>
+                        <p><small>Adjust settings and click "GENERATE QR CODE"</small></p>
                     </div>
+                </div>
+                
+                <div class="preview-controls">
+                    <div class="preview-btn active" id="previewWhite">White</div>
+                    <div class="preview-btn" id="previewBlack">Black</div>
+                    <div class="preview-btn" id="previewTransparent">Transparent</div>
+                    <div class="preview-btn" id="previewGradient">Gradient</div>
                 </div>
                 
                 <div class="download-options">
                     <button id="downloadPng" class="download-btn png">
-                        <i class="fas fa-download"></i> Download PNG
+                        <i class="fas fa-download"></i> DOWNLOAD PNG
                     </button>
                     <button id="downloadJpg" class="download-btn jpg">
-                        <i class="fas fa-download"></i> Download JPG
+                        <i class="fas fa-download"></i> DOWNLOAD JPG
                     </button>
                     <button id="downloadSvg" class="download-btn svg">
-                        <i class="fas fa-download"></i> Download SVG
+                        <i class="fas fa-download"></i> DOWNLOAD SVG
                     </button>
                 </div>
                 
-                <div style="margin-top: 30px; text-align: center; color: #666;">
-                    <p><i class="fas fa-lightbulb"></i> <strong>Tip:</strong> Scan your QR code with a phone camera to test it!</p>
+                <div style="margin-top: 40px; text-align: center; color: #666; background: rgba(255,255,255,0.8); padding: 20px; border-radius: 15px; border: 2px solid rgba(106, 17, 203, 0.1);">
+                    <p style="font-weight: 700; margin-bottom: 10px; color: #6a11cb;"><i class="fas fa-lightbulb"></i> PRO TIP</p>
+                    <p>Scan your QR code with a phone camera to test it! Higher error correction levels allow QR codes to be scanned even if partially damaged.</p>
                 </div>
             </div>
         </div>
         
         <footer>
-            <p style="font-size: 1.2rem; font-weight: 700; margin-bottom: 15px;">Ultimate QR Code Generator &copy; 2023</p>
-            <p style="margin-bottom: 20px;">Ready to deploy on GitHub Pages - Single HTML file, no dependencies</p>
-            <p style="font-size: 0.95rem; color: #777; line-height: 1.6;">
+            <p style="font-size: 1.4rem; font-weight: 800; margin-bottom: 20px; background: linear-gradient(to right, #fff, #e1e5eb); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Ultimate QR Code Generator © 2023</p>
+            <p style="margin-bottom: 25px; color: rgba(255,255,255,0.9);">Ready to deploy on GitHub Pages - Single HTML file, no server required</p>
+            <p style="font-size: 1rem; color: rgba(255,255,255,0.8); line-height: 1.8;">
                 <i class="fas fa-code"></i> Built with HTML5, CSS3 & JavaScript | 
-                <i class="fas fa-paint-brush"></i> 6 design styles | 
+                <i class="fas fa-paint-brush"></i> 15+ design styles | 
+                <i class="fas fa-shapes"></i> 8 shape types | 
+                <i class="fas fa-gradient"></i> Gradient support |
                 <i class="fas fa-image"></i> Logo embedding |
                 <i class="fas fa-mobile-alt"></i> Fully responsive
             </p>
@@ -1104,16 +1430,24 @@
     <script>
         // DOM Elements
         const qrText = document.getElementById('qrText');
-        const qrSize = document.getElementById('qrSize');
+        const qrWidth = document.getElementById('qrWidth');
+        const qrHeight = document.getElementById('qrHeight');
         const qrMargin = document.getElementById('qrMargin');
         const errorCorrection = document.getElementById('errorCorrection');
+        const lockAspectRatio = document.getElementById('lockAspectRatio');
         const formatOptions = document.querySelectorAll('.format-option');
         const designOptions = document.querySelectorAll('.design-option');
+        const shapeOptions = document.querySelectorAll('.shape-option');
         const colorPresets = document.querySelectorAll('.color-preset');
         const foregroundColor = document.getElementById('foregroundColor');
         const foregroundColorText = document.getElementById('foregroundColorText');
         const backgroundColor = document.getElementById('backgroundColor');
         const backgroundColorText = document.getElementById('backgroundColorText');
+        const gradientOptions = document.querySelectorAll('.gradient-option');
+        const gradientColor = document.getElementById('gradientColor');
+        const gradientColorText = document.getElementById('gradientColorText');
+        const gradientColorContainer = document.getElementById('gradientColorContainer');
+        const eyeStyleOptions = document.querySelectorAll('.eye-style-option');
         const eyeColor = document.getElementById('eyeColor');
         const eyeColorText = document.getElementById('eyeColorText');
         const logoFile = document.getElementById('logoFile');
@@ -1123,6 +1457,8 @@
         const removeLogo = document.getElementById('removeLogo');
         const logoSize = document.getElementById('logoSize');
         const logoMargin = document.getElementById('logoMargin');
+        const logoBackground = document.getElementById('logoBackground');
+        const logoBackgroundText = document.getElementById('logoBackgroundText');
         const pngQuality = document.getElementById('pngQuality');
         const jpgQuality = document.getElementById('jpgQuality');
         const pngQualityOption = document.getElementById('pngQualityOption');
@@ -1138,23 +1474,31 @@
         const tabContents = document.querySelectorAll('.tab-content');
         const generatingOverlay = document.getElementById('generatingOverlay');
         const statusMessage = document.getElementById('statusMessage');
+        const previewWhite = document.getElementById('previewWhite');
+        const previewBlack = document.getElementById('previewBlack');
+        const previewTransparent = document.getElementById('previewTransparent');
+        const previewGradient = document.getElementById('previewGradient');
         const foregroundPreview = document.getElementById('foregroundPreview');
         const backgroundPreview = document.getElementById('backgroundPreview');
         
         // Current settings
         let currentFormat = 'png';
         let currentStyle = 'square';
+        let currentShape = 'square';
+        let currentGradient = 'none';
+        let currentEyeStyle = 'square';
         let qrCodeInstance = null;
         let logoDataUrl = null;
+        let isAspectRatioLocked = true;
         
         // Color presets mapping
         const colorPresetMap = {
             '1': { foreground: '#000000', background: '#FFFFFF' },
-            '2': { foreground: '#6a11cb', background: '#FFFFFF' },
-            '3': { foreground: '#f7971e', background: '#FFFFFF' },
-            '4': { foreground: '#1d976c', background: '#FFFFFF' },
-            '5': { foreground: '#8a2387', background: '#FFFFFF' },
-            '6': { foreground: '#ff416c', background: '#FFFFFF' }
+            '2': { foreground: '#6a11cb', background: '#FFFFFF', gradient: '#2575fc' },
+            '3': { foreground: '#f7971e', background: '#FFFFFF', gradient: '#ffd200' },
+            '4': { foreground: '#1d976c', background: '#FFFFFF', gradient: '#93f9b9' },
+            '5': { foreground: '#8a2387', background: '#FFFFFF', gradient: '#f27121' },
+            '6': { foreground: '#ff416c', background: '#FFFFFF', gradient: '#ff4b2b' }
         };
         
         // Show status message
@@ -1165,7 +1509,7 @@
             
             setTimeout(() => {
                 statusMessage.style.display = 'none';
-            }, 3000);
+            }, 4000);
         }
         
         // Update color previews
@@ -1177,10 +1521,41 @@
         // Update QR container size
         function updateQRContainerSize() {
             const container = document.querySelector('.qr-container');
-            const size = parseInt(qrSize.value);
-            container.style.width = `${size}px`;
-            container.style.height = `${size}px`;
+            const width = parseInt(qrWidth.value);
+            const height = parseInt(qrHeight.value);
+            container.style.width = `${width}px`;
+            container.style.height = `${height}px`;
         }
+        
+        // Event Listeners for inputs
+        qrWidth.addEventListener('input', function() {
+            if (isAspectRatioLocked) {
+                qrHeight.value = this.value;
+            }
+            updateQRContainerSize();
+        });
+        
+        qrHeight.addEventListener('input', function() {
+            if (isAspectRatioLocked) {
+                qrWidth.value = this.value;
+            }
+            updateQRContainerSize();
+        });
+        
+        // Aspect ratio lock
+        lockAspectRatio.addEventListener('click', function() {
+            isAspectRatioLocked = !isAspectRatioLocked;
+            if (isAspectRatioLocked) {
+                this.classList.add('active');
+                this.innerHTML = '<i class="fas fa-lock"></i>';
+                qrHeight.value = qrWidth.value;
+                showStatus('Aspect ratio locked (1:1)', 'success');
+            } else {
+                this.classList.remove('active');
+                this.innerHTML = '<i class="fas fa-lock-open"></i>';
+                showStatus('Aspect ratio unlocked', 'success');
+            }
+        });
         
         // Color picker event listeners
         foregroundColor.addEventListener('input', function() {
@@ -1197,6 +1572,14 @@
         
         eyeColor.addEventListener('input', function() {
             eyeColorText.value = this.value;
+        });
+        
+        gradientColor.addEventListener('input', function() {
+            gradientColorText.value = this.value;
+        });
+        
+        logoBackground.addEventListener('input', function() {
+            logoBackgroundText.value = this.value;
         });
         
         // Text field event listeners for color
@@ -1219,6 +1602,18 @@
         eyeColorText.addEventListener('input', function() {
             if (this.value.match(/^#[0-9A-F]{6}$/i)) {
                 eyeColor.value = this.value;
+            }
+        });
+        
+        gradientColorText.addEventListener('input', function() {
+            if (this.value.match(/^#[0-9A-F]{6}$/i)) {
+                gradientColor.value = this.value;
+            }
+        });
+        
+        logoBackgroundText.addEventListener('input', function() {
+            if (this.value.match(/^#[0-9A-F]{6}$/i)) {
+                logoBackground.value = this.value;
             }
         });
         
@@ -1252,6 +1647,39 @@
             });
         });
         
+        // Shape options
+        shapeOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                shapeOptions.forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                currentShape = this.dataset.shape;
+            });
+        });
+        
+        // Gradient options
+        gradientOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                gradientOptions.forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                currentGradient = this.dataset.gradient;
+                
+                if (currentGradient === 'none') {
+                    gradientColorContainer.style.display = 'none';
+                } else {
+                    gradientColorContainer.style.display = 'block';
+                }
+            });
+        });
+        
+        // Eye style options
+        eyeStyleOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                eyeStyleOptions.forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                currentEyeStyle = this.dataset.eye;
+            });
+        });
+        
         // Color presets
         colorPresets.forEach(preset => {
             preset.addEventListener('click', function() {
@@ -1266,6 +1694,20 @@
                 
                 backgroundColor.value = colors.background;
                 backgroundColorText.value = colors.background;
+                
+                if (colors.gradient) {
+                    gradientColor.value = colors.gradient;
+                    gradientColorText.value = colors.gradient;
+                    gradientOptions.forEach(opt => opt.classList.remove('active'));
+                    document.querySelector('.gradient-option[data-gradient="linear"]').classList.add('active');
+                    currentGradient = 'linear';
+                    gradientColorContainer.style.display = 'block';
+                } else {
+                    gradientOptions.forEach(opt => opt.classList.remove('active'));
+                    document.querySelector('.gradient-option[data-gradient="none"]').classList.add('active');
+                    currentGradient = 'none';
+                    gradientColorContainer.style.display = 'none';
+                }
                 
                 updateColorPreviews();
             });
@@ -1293,9 +1735,9 @@
             const file = e.target.files[0];
             if (!file) return;
             
-            // Check file size (max 1MB)
-            if (file.size > 1024 * 1024) {
-                alert('File size must be less than 1MB');
+            // Check file size (max 2MB)
+            if (file.size > 2 * 1024 * 1024) {
+                alert('File size must be less than 2MB');
                 return;
             }
             
@@ -1336,15 +1778,57 @@
             });
         });
         
-        // Generate QR Code - FIXED VERSION
+        // Preview background buttons
+        previewWhite.addEventListener('click', function() {
+            previewWhite.classList.add('active');
+            previewBlack.classList.remove('active');
+            previewTransparent.classList.remove('active');
+            previewGradient.classList.remove('active');
+            document.querySelector('.qr-container').style.background = 'white';
+            document.querySelector('.qr-container').style.backgroundSize = '';
+            document.querySelector('.qr-container').style.backgroundPosition = '';
+        });
+        
+        previewBlack.addEventListener('click', function() {
+            previewBlack.classList.add('active');
+            previewWhite.classList.remove('active');
+            previewTransparent.classList.remove('active');
+            previewGradient.classList.remove('active');
+            document.querySelector('.qr-container').style.background = '#333';
+            document.querySelector('.qr-container').style.backgroundSize = '';
+            document.querySelector('.qr-container').style.backgroundPosition = '';
+        });
+        
+        previewTransparent.addEventListener('click', function() {
+            previewTransparent.classList.add('active');
+            previewWhite.classList.remove('active');
+            previewBlack.classList.remove('active');
+            previewGradient.classList.remove('active');
+            document.querySelector('.qr-container').style.background = 'linear-gradient(45deg, #f0f0f0 25%, transparent 25%, transparent 75%, #f0f0f0 75%, #f0f0f0), linear-gradient(45deg, #f0f0f0 25%, transparent 25%, transparent 75%, #f0f0f0 75%, #f0f0f0)';
+            document.querySelector('.qr-container').style.backgroundSize = '20px 20px';
+            document.querySelector('.qr-container').style.backgroundPosition = '0 0, 10px 10px';
+        });
+        
+        previewGradient.addEventListener('click', function() {
+            previewGradient.classList.add('active');
+            previewWhite.classList.remove('active');
+            previewBlack.classList.remove('active');
+            previewTransparent.classList.remove('active');
+            document.querySelector('.qr-container').style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            document.querySelector('.qr-container').style.backgroundSize = '';
+            document.querySelector('.qr-container').style.backgroundPosition = '';
+        });
+        
+        // Generate QR Code
         generateBtn.addEventListener('click', generateQRCode);
         
         // Reset to defaults
         resetBtn.addEventListener('click', function() {
-            if (confirm('Reset all settings to default?')) {
+            if (confirm('Reset all settings to default values?')) {
                 // Reset form values
                 qrText.value = 'https://github.com';
-                qrSize.value = 380;
+                qrWidth.value = 420;
+                qrHeight.value = 420;
                 qrMargin.value = 10;
                 errorCorrection.value = 'M';
                 
@@ -1356,6 +1840,22 @@
                 document.querySelector('.design-option[data-style="square"]').classList.add('active');
                 currentStyle = 'square';
                 
+                // Reset shape options
+                shapeOptions.forEach(opt => opt.classList.remove('active'));
+                document.querySelector('.shape-option[data-shape="square"]').classList.add('active');
+                currentShape = 'square';
+                
+                // Reset gradient options
+                gradientOptions.forEach(opt => opt.classList.remove('active'));
+                document.querySelector('.gradient-option[data-gradient="none"]').classList.add('active');
+                currentGradient = 'none';
+                gradientColorContainer.style.display = 'none';
+                
+                // Reset eye style options
+                eyeStyleOptions.forEach(opt => opt.classList.remove('active'));
+                document.querySelector('.eye-style-option[data-eye="square"]').classList.add('active');
+                currentEyeStyle = 'square';
+                
                 // Reset colors
                 colorPresets.forEach(p => p.classList.remove('active'));
                 document.querySelector('.color-preset[data-preset="1"]').classList.add('active');
@@ -1364,6 +1864,8 @@
                 foregroundColorText.value = '#000000';
                 backgroundColor.value = '#FFFFFF';
                 backgroundColorText.value = '#FFFFFF';
+                gradientColor.value = '#6a11cb';
+                gradientColorText.value = '#6a11cb';
                 eyeColor.value = '#000000';
                 eyeColorText.value = '#000000';
                 
@@ -1375,6 +1877,8 @@
                 logoFile.value = '';
                 logoSize.value = 20;
                 logoMargin.value = 5;
+                logoBackground.value = '#FFFFFF';
+                logoBackgroundText.value = '#FFFFFF';
                 
                 // Reset output
                 formatOptions.forEach(opt => opt.classList.remove('active'));
@@ -1397,10 +1901,19 @@
                     }
                 });
                 
+                // Reset preview background
+                previewWhite.classList.add('active');
+                previewBlack.classList.remove('active');
+                previewTransparent.classList.remove('active');
+                previewGradient.classList.remove('active');
+                document.querySelector('.qr-container').style.background = 'white';
+                document.querySelector('.qr-container').style.backgroundSize = '';
+                document.querySelector('.qr-container').style.backgroundPosition = '';
+                
                 // Generate new QR code
                 generateQRCode();
                 
-                showStatus('All settings reset to default', 'success');
+                showStatus('All settings reset to default values', 'success');
             }
         });
         
@@ -1409,10 +1922,11 @@
         downloadJpg.addEventListener('click', () => downloadQRCode('jpg'));
         downloadSvg.addEventListener('click', () => downloadQRCode('svg'));
         
-        // Generate QR Code function - SIMPLIFIED AND WORKING VERSION
+        // Generate QR Code function - FIXED AND WORKING
         function generateQRCode() {
             const text = qrText.value.trim();
-            const size = parseInt(qrSize.value);
+            const width = parseInt(qrWidth.value);
+            const height = parseInt(qrHeight.value);
             const margin = parseInt(qrMargin.value);
             
             if (!text) {
@@ -1420,8 +1934,8 @@
                 return;
             }
             
-            if (size < 200 || size > 2000) {
-                showStatus('Size must be between 200px and 2000px', 'error');
+            if (width < 200 || width > 2000 || height < 200 || height > 2000) {
+                showStatus('Width and height must be between 200px and 2000px', 'error');
                 return;
             }
             
@@ -1432,72 +1946,105 @@
             // Clear previous QR code
             qrcodeDiv.innerHTML = '';
             
-            // Prepare configuration - SIMPLIFIED for reliability
+            // Prepare dots options based on style
+            let dotsOptions = {
+                type: currentStyle,
+                color: foregroundColor.value
+            };
+            
+            // Add gradient if selected
+            if (currentGradient !== 'none') {
+                dotsOptions.gradient = {
+                    type: currentGradient,
+                    rotation: 45,
+                    colorStops: [
+                        { offset: 0, color: foregroundColor.value },
+                        { offset: 1, color: gradientColor.value }
+                    ]
+                };
+            }
+            
+            // Prepare corners options
+            let cornersSquareOptions = {
+                type: currentEyeStyle,
+                color: eyeColor.value
+            };
+            
+            let cornersDotOptions = {
+                type: currentEyeStyle,
+                color: eyeColor.value
+            };
+            
+            // Prepare image options if logo is uploaded
+            let imageOptions = null;
+            if (logoDataUrl) {
+                imageOptions = {
+                    crossOrigin: 'anonymous',
+                    margin: parseInt(logoMargin.value),
+                    imageSize: parseFloat(logoSize.value) / 100
+                };
+            }
+            
+            // Create QR code config
             const config = {
-                width: size,
-                height: size,
+                width: width,
+                height: height,
                 type: "canvas",
                 data: text,
+                image: logoDataUrl,
                 margin: margin,
                 qrOptions: {
                     typeNumber: 0,
                     mode: "Byte",
                     errorCorrectionLevel: errorCorrection.value
                 },
-                dotsOptions: {
-                    type: currentStyle,
-                    color: foregroundColor.value
-                },
+                imageOptions: imageOptions,
+                dotsOptions: dotsOptions,
                 backgroundOptions: {
-                    color: backgroundColor.value
+                    color: backgroundColor.value,
                 },
-                cornersSquareOptions: {
-                    type: "square",
-                    color: eyeColor.value
-                },
-                cornersDotOptions: {
-                    type: "square",
-                    color: eyeColor.value
-                }
+                cornersSquareOptions: cornersSquareOptions,
+                cornersDotOptions: cornersDotOptions
             };
-            
-            // Add logo if exists
-            if (logoDataUrl) {
-                config.image = logoDataUrl;
-                config.imageOptions = {
-                    hideBackgroundDots: true,
-                    imageSize: parseFloat(logoSize.value) / 100,
-                    margin: parseInt(logoMargin.value)
-                };
-            }
             
             // Create QR code instance
             try {
+                // Clean up previous instance
+                if (qrCodeInstance) {
+                    qrcodeDiv.innerHTML = '';
+                }
+                
                 qrCodeInstance = new QRCodeStyling(config);
                 
                 // Append to DOM
                 setTimeout(() => {
                     qrCodeInstance.append(qrcodeDiv);
                     generatingOverlay.style.display = 'none';
-                    showStatus('QR Code generated successfully!', 'success');
+                    showStatus('✅ QR Code generated successfully!', 'success');
                     
                     // Ensure the QR code is visible
                     const canvas = qrcodeDiv.querySelector('canvas');
                     if (canvas) {
                         canvas.style.width = '100%';
                         canvas.style.height = '100%';
+                        canvas.style.borderRadius = '10px';
                     }
                 }, 100);
                 
             } catch (error) {
                 console.error("Error generating QR code:", error);
-                showStatus("Error generating QR code. Please check your settings.", 'error');
+                showStatus("❌ Error generating QR code. Please try different settings.", 'error');
                 generatingOverlay.style.display = 'none';
                 
                 // Show fallback message
-                qrcodeDiv.innerHTML = `<div style="text-align:center; padding:30px;">
-                    <p style="color:#666; margin-bottom:15px; font-size:1.1rem;">QR Code Preview Unavailable</p>
-                    <p style="color:#999; font-size:14px;">Please check your settings and try again.</p>
+                qrcodeDiv.innerHTML = `<div style="text-align:center; padding:40px;">
+                    <p style="color:#666; margin-bottom:20px; font-size:1.3rem; font-weight:700;">QR Code Generation Failed</p>
+                    <p style="color:#999; font-size:16px; margin-bottom:25px;">Try adjusting your settings:</p>
+                    <ul style="text-align:left; display:inline-block; color:#777;">
+                        <li>Use simpler design options</li>
+                        <li>Reduce logo size if added</li>
+                        <li>Try different color combinations</li>
+                    </ul>
                 </div>`;
             }
         }
@@ -1509,7 +2056,7 @@
                 return;
             }
             
-            const filename = `qrcode-${Date.now()}`;
+            const filename = `custom-qrcode-${Date.now()}`;
             
             try {
                 if (format === 'svg') {
@@ -1517,13 +2064,13 @@
                         name: filename,
                         extension: 'svg'
                     });
-                    showStatus('SVG download started', 'success');
+                    showStatus('✅ SVG download started!', 'success');
                 } else if (format === 'png') {
                     qrCodeInstance.download({
                         name: filename,
                         extension: 'png'
                     });
-                    showStatus('PNG download started', 'success');
+                    showStatus('✅ PNG download started!', 'success');
                 } else if (format === 'jpg') {
                     // For JPG, convert canvas to JPG
                     const canvas = qrcodeDiv.querySelector('canvas');
@@ -1539,11 +2086,11 @@
                     document.body.appendChild(a);
                     a.click();
                     document.body.removeChild(a);
-                    showStatus('JPG download started', 'success');
+                    showStatus('✅ JPG download started!', 'success');
                 }
             } catch (error) {
                 console.error("Download error:", error);
-                showStatus("Download failed. Please try again.", 'error');
+                showStatus("❌ Download failed. Please try again.", 'error');
             }
         }
         
@@ -1558,29 +2105,11 @@
             // Generate initial QR code
             setTimeout(() => {
                 generateQRCode();
-            }, 500);
+            }, 1000);
         });
         
-        // Update QR container when size changes
-        qrSize.addEventListener('input', function() {
-            updateQRContainerSize();
-        });
-        
-        // Auto-generate when important settings change
-        const autoGenerateInputs = [qrText, qrSize, qrMargin, errorCorrection, 
-                                   foregroundColor, backgroundColor, eyeColor];
-        
-        autoGenerateInputs.forEach(input => {
-            input.addEventListener('change', () => {
-                if (qrText.value.trim()) {
-                    clearTimeout(window.generateTimeout);
-                    window.generateTimeout = setTimeout(generateQRCode, 500);
-                }
-            });
-        });
-        
-        // Input validation
-        const numberInputs = [qrSize, qrMargin, logoSize, logoMargin, pngQuality, jpgQuality];
+        // Input validation for numbers
+        const numberInputs = [qrWidth, qrHeight, qrMargin, logoSize, logoMargin, pngQuality, jpgQuality];
         
         numberInputs.forEach(input => {
             input.addEventListener('blur', function() {
@@ -1594,6 +2123,35 @@
                     this.value = min;
                 } else if (value > max) {
                     this.value = max;
+                }
+            });
+        });
+        
+        // Auto-generate when important settings change
+        const autoGenerateInputs = [qrText, qrWidth, qrHeight, qrMargin, errorCorrection, 
+                                   foregroundColor, backgroundColor, eyeColor];
+        
+        autoGenerateInputs.forEach(input => {
+            input.addEventListener('change', () => {
+                if (qrText.value.trim()) {
+                    clearTimeout(window.generateTimeout);
+                    window.generateTimeout = setTimeout(generateQRCode, 800);
+                }
+            });
+        });
+        
+        // Also generate when design options change
+        const designChangeInputs = [].slice.call(designOptions).concat(
+            [].slice.call(shapeOptions),
+            [].slice.call(gradientOptions),
+            [].slice.call(eyeStyleOptions)
+        );
+        
+        designChangeInputs.forEach(input => {
+            input.addEventListener('click', () => {
+                if (qrText.value.trim()) {
+                    clearTimeout(window.generateTimeout);
+                    window.generateTimeout = setTimeout(generateQRCode, 800);
                 }
             });
         });
