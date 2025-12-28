@@ -3,205 +3,362 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compact Omni QR Pro</title>
+    <title>Infinity QR Designer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+    
     <style>
         :root {
-            --bg-color: #f0f2f5;
-            --panel-bg: #ffffff;
-            --accent: #2563eb;
-            --text: #1e293b;
-            --border: #e2e8f0;
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            --text-color: #ffffff;
+            --input-bg: rgba(255, 255, 255, 0.15);
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
+            font-family: 'Poppins', sans-serif;
             margin: 0;
-            color: var(--text);
-            height: 100vh;
-            overflow: hidden; /* Prevents full page scroll */
+            padding: 0;
+            /* Animated Deep Background */
+            background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #141E30);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: var(--text-color);
+            min-height: 100vh;
             display: flex;
-            flex-direction: column;
-        }
-
-        /* Header */
-        header {
-            background: var(--panel-bg);
-            padding: 10px 20px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 50px;
-            flex-shrink: 0;
-        }
-        h1 { margin: 0; font-size: 1.2rem; color: var(--accent); }
-
-        /* Main Layout - Split Screen */
-        .main-container {
-            display: flex;
-            height: calc(100vh - 50px); /* Fill remaining height */
-            width: 100%;
-        }
-
-        /* LEFT: Scrollable Controls */
-        .controls-panel {
-            width: 400px;
-            background: var(--panel-bg);
-            border-right: 1px solid var(--border);
-            padding: 15px;
-            overflow-y: auto; /* Only this part scrolls */
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        /* RIGHT: Fixed Preview Area */
-        .preview-panel {
-            flex-grow: 1;
-            background: #eef2ff;
-            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
-            background-size: 20px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            padding: 20px;
-            position: relative;
-        }
-
-        /* --- THE PREVIEW FIX --- */
-        #qr-wrapper {
-            width: 100%;
-            max-width: 450px; /* Max visual size */
-            aspect-ratio: 1/1;
-            background: white;
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            display: flex;
             align-items: center;
-            justify-content: center;
-            overflow: hidden; /* Important */
         }
 
-        /* Force canvas/svg to fit visually regardless of actual resolution */
-        #qr-wrapper canvas, #qr-wrapper svg {
-            width: 100% !important;
-            height: 100% !important;
-            object-fit: contain;
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        /* Compact Inputs */
-        .section {
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 10px;
-            background: #f8fafc;
+        /* --- Main Glass Container --- */
+        .app-container {
+            display: flex;
+            width: 90%;
+            max-width: 1400px;
+            height: 90vh;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 24px;
+            border: var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            overflow: hidden;
         }
-        .section-title {
-            font-size: 0.85rem;
+
+        /* --- Left Side: Settings (Scrollable) --- */
+        .sidebar {
+            width: 450px;
+            padding: 30px;
+            overflow-y: auto;
+            border-right: var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* Custom Scrollbar */
+        .sidebar::-webkit-scrollbar { width: 8px; }
+        .sidebar::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+        .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 10px; }
+        .sidebar::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.5); }
+
+        h1 {
+            font-size: 2rem;
+            margin: 0;
+            background: linear-gradient(to right, #00f260, #0575e6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             font-weight: 700;
-            margin-bottom: 8px;
-            color: #64748b;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
         }
 
-        .row { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; }
-        .col { flex: 1; }
-        
-        label { font-size: 0.75rem; font-weight: 600; display: block; margin-bottom: 3px; }
-        
+        /* Sections */
+        .control-group {
+            background: rgba(0,0,0,0.2);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s;
+        }
+        .control-group:hover {
+            transform: translateY(-2px);
+            background: rgba(0,0,0,0.3);
+        }
+
+        .group-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #a0a0a0;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 5px;
+        }
+
+        /* Inputs Styling */
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
         input[type="text"], input[type="number"], select {
             width: 100%;
-            padding: 6px 8px;
-            border: 1px solid #cbd5e1;
-            border-radius: 4px;
-            font-size: 0.85rem;
+            padding: 12px 15px;
+            background: var(--input-bg);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
             box-sizing: border-box;
+            transition: 0.3s;
         }
 
-        /* Custom Range Slider */
-        input[type="range"] { width: 100%; height: 4px; }
+        input:focus, select:focus {
+            outline: none;
+            background: rgba(255,255,255,0.25);
+            border-color: #667eea;
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.3);
+        }
 
-        /* Color Pickers - Compact */
+        option { background: #333; color: white; }
+
+        .row { display: flex; gap: 15px; }
+        .col { flex: 1; }
+
+        /* Color Inputs */
+        .color-wrapper {
+            display: flex;
+            align-items: center;
+            background: var(--input-bg);
+            padding: 5px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
         input[type="color"] {
+            border: none;
+            width: 40px;
+            height: 40px;
+            background: none;
+            cursor: pointer;
+        }
+        .color-label { font-size: 0.8rem; margin-left: 10px; opacity: 0.8; }
+
+        /* Range Slider */
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 5px;
+            outline: none;
             -webkit-appearance: none;
-            width: 100%; height: 30px;
-            padding: 0; border: none;
-            border-radius: 4px; overflow: hidden; cursor: pointer;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: #fff;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255,255,255,0.5);
         }
 
-        /* Aspect Ratio Lock Button */
-        .lock-btn {
-            background: none; border: 1px solid #cbd5e1;
-            border-radius: 4px; padding: 5px; cursor: pointer;
-            color: #64748b; font-size: 1rem; line-height: 1;
+        /* --- Right Side: Preview (Fixed) --- */
+        .preview-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background: rgba(0,0,0,0.1);
+            background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
         }
-        .lock-btn.active { background: #dbeafe; color: var(--accent); border-color: var(--accent); }
+
+        /* --- THE MAGIC FIX FOR PREVIEW --- */
+        #canvas-wrapper {
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.95); /* Light bg behind QR to see it clearly */
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            /* Overflow hidden is key */
+            overflow: hidden; 
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Force children (Canvas/SVG) to fit the box */
+        #canvas-wrapper canvas, 
+        #canvas-wrapper svg {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: contain !important; /* Ensures aspect ratio is kept */
+        }
 
         /* Download Buttons */
-        .download-bar {
-            margin-top: 20px;
-            display: flex; gap: 10px;
+        .download-actions {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
         }
-        .btn-dl {
-            padding: 10px 20px; border: none; border-radius: 6px;
-            color: white; font-weight: 600; cursor: pointer;
-            transition: transform 0.1s;
-        }
-        .btn-dl:active { transform: scale(0.95); }
-        .bg-png { background: #10b981; }
-        .bg-jpg { background: #f59e0b; }
-        .bg-svg { background: #ef4444; }
 
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .main-container { flex-direction: column-reverse; height: auto; overflow: auto; }
-            body { overflow: auto; height: auto; }
-            .controls-panel { width: 100%; border-right: none; border-top: 1px solid var(--border); }
-            .preview-panel { min-height: 350px; position: sticky; top: 0; z-index: 10; border-bottom: 1px solid #ccc; }
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        
+        .btn-png { background: linear-gradient(45deg, #11998e, #38ef7d); }
+        .btn-jpg { background: linear-gradient(45deg, #f2994a, #f2c94c); }
+        .btn-svg { background: linear-gradient(45deg, #ee0979, #ff6a00); }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .app-container { flex-direction: column; height: auto; overflow: visible; }
+            .sidebar { width: 100%; height: auto; border-right: none; border-bottom: var(--glass-border); box-sizing: border-box;}
+            .preview-area { padding: 40px 0; min-height: 500px; }
+            #canvas-wrapper { width: 300px; height: 300px; }
         }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>QR Master</h1>
-    <div style="font-size: 0.8rem; color: #666;">High Res • Vector • Custom</div>
-</header>
+    <div class="app-container">
+        <div class="sidebar">
+            <h1>Infinity QR</h1>
+            
+            <div class="control-group">
+                <div class="group-title">Content & Data</div>
+                <label>URL or Text</label>
+                <input type="text" id="data" value="https://github.com" placeholder="Enter website, text, or wifi...">
+            </div>
 
-<div class="main-container">
-    
-    <div class="controls-panel">
-        
-        <div class="section">
-            <div class="section-title">Content</div>
-            <input type="text" id="data" placeholder="https://yourlink.com" value="https://github.com">
-        </div>
-
-        <div class="section">
-            <div class="section-title">Size & Resolution</div>
-            <div class="row">
-                <div class="col">
-                    <label>Width (px)</label>
-                    <input type="number" id="width" value="1000" step="100">
+            <div class="control-group">
+                <div class="group-title">Shapes & Design</div>
+                <div class="row">
+                    <div class="col">
+                        <label>Dots Style</label>
+                        <select id="dots-type">
+                            <option value="square">Square</option>
+                            <option value="dots">Dots</option>
+                            <option value="rounded">Rounded</option>
+                            <option value="extra-rounded">Extra Rounded</option>
+                            <option value="classy">Classy</option>
+                            <option value="classy-rounded">Classy Rounded</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label>Corner Frame</label>
+                        <select id="corners-square-type">
+                            <option value="extra-rounded">Extra Rounded</option>
+                            <option value="square">Square</option>
+                            <option value="dot">Dot</option>
+                            <option value="classy">Classy</option>
+                        </select>
+                    </div>
                 </div>
-                <button id="lock-btn" class="lock-btn active" title="Lock Aspect Ratio">🔗</button>
-                <div class="col">
-                    <label>Height (px)</label>
-                    <input type="number" id="height" value="1000" step="100">
+                <div style="margin-top: 10px;">
+                     <label>Corner Dot (Inner)</label>
+                     <select id="corners-dot-type">
+                        <option value="dot">Dot</option>
+                        <option value="square">Square</option>
+                    </select>
                 </div>
             </div>
-            <div class="row">
-                <div class="col">
-                    <label>Margin</label>
-                    <input type="number" id="margin" value="20">
+
+            <div class="control-group">
+                <div class="group-title">Colors & Gradient</div>
+                
+                <label>Dots Gradient Type</label>
+                <select id="gradient-type">
+                    <option value="single">Single Color</option>
+                    <option value="linear">Linear Gradient</option>
+                    <option value="radial">Radial Gradient</option>
+                </select>
+
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col">
+                        <div class="color-wrapper">
+                            <input type="color" id="color1" value="#0f0c29">
+                            <span class="color-label">Color 1</span>
+                        </div>
+                    </div>
+                    <div class="col" id="col2-box" style="display:none;">
+                        <div class="color-wrapper">
+                            <input type="color" id="color2" value="#302b63">
+                            <span class="color-label">Color 2</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="col">
+
+                <div class="row" style="margin-top: 15px;">
+                     <div class="col">
+                        <label>Background</label>
+                        <div class="color-wrapper">
+                            <input type="color" id="bg-color" value="#ffffff">
+                            <span class="color-label">BG Color</span>
+                        </div>
+                    </div>
+                </div>
+                <label style="margin-top: 10px; display:flex; align-items:center; cursor:pointer;">
+                    <input type="checkbox" id="bg-transparent" style="width: auto; margin-right: 10px;"> Transparent Background
+                </label>
+            </div>
+
+            <div class="control-group">
+                <div class="group-title">Branding (Logo)</div>
+                <label>Upload Logo</label>
+                <input type="file" id="file-logo" accept="image/*" style="padding: 5px; background: none; border: none;">
+                
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col">
+                        <label>Logo Size</label>
+                        <input type="range" id="logo-size" min="0.1" max="0.6" step="0.05" value="0.4">
+                    </div>
+                    <div class="col">
+                         <label>Logo Margin</label>
+                         <input type="number" id="logo-margin" value="5">
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="group-title">Export Settings</div>
+                <div class="row">
+                    <div class="col">
+                        <label>Resolution (px)</label>
+                        <input type="number" id="size" value="2000" step="100">
+                    </div>
+                    <div class="col">
+                        <label>Margin (Quiet Zone)</label>
+                        <input type="number" id="margin" value="20">
+                    </div>
+                </div>
+                <div style="margin-top: 10px;">
                     <label>Error Correction</label>
                     <select id="error-level">
                         <option value="L">Low</option>
@@ -211,216 +368,122 @@
                     </select>
                 </div>
             </div>
+
         </div>
 
-        <div class="section">
-            <div class="section-title">Shapes & Style</div>
-            <div class="row">
-                <div class="col">
-                    <label>Dots Style</label>
-                    <select id="dots-type">
-                        <option value="square">Square</option>
-                        <option value="dots">Dots</option>
-                        <option value="rounded">Rounded</option>
-                        <option value="extra-rounded">Extra Rounded</option>
-                        <option value="classy">Classy</option>
-                        <option value="classy-rounded">Classy-R</option>
-                    </select>
-                </div>
-                <div class="col">
-                    <label>Corner Frame</label>
-                    <select id="corners-square-type">
-                        <option value="extra-rounded">Extra Rnd</option>
-                        <option value="square">Square</option>
-                        <option value="dot">Dot</option>
-                        <option value="classy">Classy</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <label>Corner Center</label>
-                    <select id="corners-dot-type">
-                        <option value="dot">Dot</option>
-                        <option value="square">Square</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <div class="section">
-            <div class="section-title">Colors</div>
-            <div class="row">
-                <div class="col">
-                    <label>Dots Color</label>
-                    <input type="color" id="color-dots" value="#000000">
-                </div>
-                <div class="col">
-                    <label>Background</label>
-                    <input type="color" id="color-bg" value="#ffffff">
-                </div>
-            </div>
-            <label style="display:flex; align-items:center; font-size: 0.8rem; margin-top:5px;">
-                <input type="checkbox" id="bg-transparent" style="width:auto; margin-right:5px;"> Transparent Background
-            </label>
-        </div>
-
-        <div class="section">
-            <div class="section-title">Logo / Image</div>
-            <input type="file" id="file-logo" accept="image/*" style="border:none; padding-left:0;">
+        <div class="preview-area">
+            <div id="canvas-wrapper"></div>
             
-            <div class="row" style="margin-top:5px;">
-                <div class="col">
-                    <label>Logo Size</label>
-                    <input type="range" id="image-size" min="0.1" max="0.6" step="0.05" value="0.4">
-                </div>
-                <div class="col">
-                     <label>Margin around Logo</label>
-                     <input type="number" id="image-margin" value="10">
-                </div>
+            <div class="download-actions">
+                <button class="btn btn-png" onclick="downloadQR('png')">PNG</button>
+                <button class="btn btn-jpg" onclick="downloadQR('jpeg')">JPG</button>
+                <button class="btn btn-svg" onclick="downloadQR('svg')">SVG</button>
             </div>
+            <p style="margin-top: 20px; font-size: 0.8rem; opacity: 0.7;">
+                Preview is scaled to fit. Download will be High Res.
+            </p>
         </div>
-
-    </div> <div class="preview-panel">
-        <div id="qr-wrapper"></div>
-        
-        <div class="download-bar">
-            <button class="btn-dl bg-png" onclick="downloadQR('png')">PNG</button>
-            <button class="btn-dl bg-jpg" onclick="downloadQR('jpeg')">JPG</button>
-            <button class="btn-dl bg-svg" onclick="downloadQR('svg')">SVG</button>
-        </div>
-        <p style="font-size: 0.75rem; color: #666; margin-top: 10px;">
-            Preview is fit to screen. Download is actual size.
-        </p>
     </div>
 
-</div>
-
-<script>
-    // --- State & Config ---
-    let aspectRatioLocked = true;
-    let aspectRatio = 1;
-
-    let qrOptions = {
-        width: 1000,
-        height: 1000,
-        type: "svg",
-        data: "https://github.com",
-        image: "",
-        margin: 20,
-        qrOptions: { typeNumber: 0, mode: "Byte", errorCorrectionLevel: "H" },
-        imageOptions: { hideBackgroundDots: true, imageSize: 0.4, margin: 10, crossOrigin: "anonymous" },
-        dotsOptions: { type: "square", color: "#000000" },
-        backgroundOptions: { color: "#ffffff" },
-        cornersSquareOptions: { type: "extra-rounded", color: "#000000" },
-        cornersDotOptions: { type: "dot", color: "#000000" },
-    };
-
-    const qrCode = new QRCodeStyling(qrOptions);
-    const canvasContainer = document.getElementById("qr-wrapper");
-    qrCode.append(canvasContainer);
-
-    // --- Aspect Ratio Logic ---
-    const widthInput = document.getElementById('width');
-    const heightInput = document.getElementById('height');
-    const lockBtn = document.getElementById('lock-btn');
-
-    lockBtn.addEventListener('click', () => {
-        aspectRatioLocked = !aspectRatioLocked;
-        lockBtn.classList.toggle('active');
-        if(aspectRatioLocked) {
-            // Reset ratio based on current width
-            aspectRatio = widthInput.value / heightInput.value;
-        }
-    });
-
-    widthInput.addEventListener('input', () => {
-        if(aspectRatioLocked) {
-            heightInput.value = Math.round(widthInput.value / aspectRatio);
-        }
-        updateQRCode();
-    });
-
-    heightInput.addEventListener('input', () => {
-        if(aspectRatioLocked) {
-            widthInput.value = Math.round(heightInput.value * aspectRatio);
-        }
-        updateQRCode();
-    });
-
-    // --- Main Update Function ---
-    function updateQRCode() {
-        // Data
-        qrOptions.data = document.getElementById('data').value;
-        
-        // Dimensions
-        qrOptions.width = parseInt(document.getElementById('width').value);
-        qrOptions.height = parseInt(document.getElementById('height').value);
-        qrOptions.margin = parseInt(document.getElementById('margin').value);
-        qrOptions.qrOptions.errorCorrectionLevel = document.getElementById('error-level').value;
-
-        // Styles
-        qrOptions.dotsOptions.type = document.getElementById('dots-type').value;
-        qrOptions.cornersSquareOptions.type = document.getElementById('corners-square-type').value;
-        qrOptions.cornersDotOptions.type = document.getElementById('corners-dot-type').value;
-
-        // Colors
-        const dotColor = document.getElementById('color-dots').value;
-        qrOptions.dotsOptions.color = dotColor;
-        qrOptions.cornersSquareOptions.color = dotColor; // Match corners
-        qrOptions.cornersDotOptions.color = dotColor;
-
-        const isTransparent = document.getElementById('bg-transparent').checked;
-        qrOptions.backgroundOptions.color = isTransparent ? 'transparent' : document.getElementById('color-bg').value;
-
-        // Logo
-        qrOptions.imageOptions.imageSize = parseFloat(document.getElementById('image-size').value);
-        qrOptions.imageOptions.margin = parseInt(document.getElementById('image-margin').value);
-
-        qrCode.update(qrOptions);
-    }
-
-    // --- Event Listeners ---
-    document.getElementById('file-logo').addEventListener('change', function() {
-        const file = this.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                qrOptions.image = e.target.result;
-                updateQRCode();
-            }
-            reader.readAsDataURL(file);
-        } else {
-            qrOptions.image = "";
-            updateQRCode();
-        }
-    });
-
-    // Attach listener to all other inputs
-    const inputs = document.querySelectorAll('input:not(#width):not(#height):not(#file-logo), select');
-    inputs.forEach(el => el.addEventListener('input', updateQRCode));
-
-    // --- Download ---
-    function downloadQR(format) {
-        let currentBg = qrOptions.backgroundOptions.color;
-        // Fix for JPG transparency
-        if (format === 'jpeg' && currentBg === 'transparent') {
-            qrOptions.backgroundOptions.color = '#ffffff';
-            qrCode.update(qrOptions);
-        }
-        
-        qrCode.download({ name: "qr-code", extension: format }).then(() => {
-             // Restore
-             if (format === 'jpeg' && currentBg === 'transparent') {
-                qrOptions.backgroundOptions.color = 'transparent';
-                qrCode.update(qrOptions);
-             }
+    <script>
+        // --- QR Configuration ---
+        const qrCode = new QRCodeStyling({
+            width: 2000,
+            height: 2000,
+            type: "svg",
+            data: "https://github.com",
+            image: "",
+            dotsOptions: { color: "#000000", type: "square" },
+            backgroundOptions: { color: "#ffffff" },
+            imageOptions: { crossOrigin: "anonymous", margin: 5 }
         });
-    }
 
-    // Init
-    updateQRCode();
+        // Append to Wrapper
+        qrCode.append(document.getElementById("canvas-wrapper"));
 
-</script>
+        // --- Logic ---
+        function updateQR() {
+            const data = document.getElementById('data').value;
+            const size = parseInt(document.getElementById('size').value);
+            const margin = parseInt(document.getElementById('margin').value);
+            
+            // Shapes
+            const dotsType = document.getElementById('dots-type').value;
+            const cornerSquareType = document.getElementById('corners-square-type').value;
+            const cornerDotType = document.getElementById('corners-dot-type').value;
+
+            // Colors
+            const gradientType = document.getElementById('gradient-type').value;
+            const color1 = document.getElementById('color1').value;
+            const color2 = document.getElementById('color2').value;
+            const bgColor = document.getElementById('bg-color').value;
+            const isTransparent = document.getElementById('bg-transparent').checked;
+
+            // Logo
+            const logoSize = parseFloat(document.getElementById('logo-size').value);
+            const logoMargin = parseInt(document.getElementById('logo-margin').value);
+            const errorLevel = document.getElementById('error-level').value;
+
+            // Update Options Object
+            const options = {
+                width: size,
+                height: size,
+                data: data,
+                margin: margin,
+                qrOptions: { errorCorrectionLevel: errorLevel },
+                imageOptions: { imageSize: logoSize, margin: logoMargin },
+                dotsOptions: { type: dotsType },
+                cornersSquareOptions: { type: cornerSquareType, color: color1 }, // Sync frame color
+                cornersDotOptions: { type: cornerDotType, color: color1 },     // Sync dot color
+                backgroundOptions: { color: isTransparent ? 'transparent' : bgColor }
+            };
+
+            // Color Logic (Gradient vs Single)
+            const col2Box = document.getElementById('col2-box');
+            if (gradientType === 'single') {
+                col2Box.style.display = 'none';
+                options.dotsOptions.color = color1;
+            } else {
+                col2Box.style.display = 'block';
+                options.dotsOptions.gradient = {
+                    type: gradientType,
+                    rotation: 0,
+                    colorStops: [{ offset: 0, color: color1 }, { offset: 1, color: color2 }]
+                };
+            }
+
+            qrCode.update(options);
+        }
+
+        // --- Event Listeners ---
+        // Logo Upload
+        document.getElementById('file-logo').addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    qrCode.update({ image: e.target.result });
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Add listener to all inputs
+        document.querySelectorAll('input, select').forEach(el => {
+            if(el.id !== 'file-logo') {
+                el.addEventListener('input', updateQR);
+                el.addEventListener('change', updateQR);
+            }
+        });
+
+        // Download
+        function downloadQR(ext) {
+            qrCode.download({ name: "my-qr-code", extension: ext });
+        }
+
+        // Init
+        updateQR();
+
+    </script>
 </body>
 </html>
