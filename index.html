@@ -3,37 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Omni QR: Ultimate Edition</title>
+    <title>QR Pro: Stable & Stylish</title>
     <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-dark: #020617;
-            --panel-bg: rgba(15, 23, 42, 0.8);
-            --accent: #06b6d4; /* Cyan Neon */
-            --accent-glow: rgba(6, 182, 212, 0.5);
-            --text-main: #f1f5f9;
-            --border: 1px solid rgba(255, 255, 255, 0.1);
+            --bg: #0f172a;
+            --panel: #1e293b;
+            --primary: #38bdf8;
+            --border: 1px solid rgba(255,255,255,0.1);
+            --text: #e2e8f0;
         }
 
         * { box-sizing: border-box; }
 
         body {
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Urbanist', sans-serif;
+            background: var(--bg);
+            color: var(--text);
             margin: 0;
-            background: radial-gradient(circle at top right, #1e293b, #020617);
-            color: var(--text-main);
             height: 100vh;
-            overflow: hidden;
             display: flex;
+            overflow: hidden; /* No Body Scroll */
         }
 
-        /* --- 1. SETTINGS SIDEBAR (Scrollable) --- */
+        /* --- SIDEBAR (Scrollable Settings) --- */
         .sidebar {
-            width: 380px;
-            background: var(--panel-bg);
-            backdrop-filter: blur(10px);
+            width: 360px;
+            background: var(--panel);
             border-right: var(--border);
             display: flex;
             flex-direction: column;
@@ -41,216 +39,204 @@
             z-index: 20;
         }
 
-        .brand {
+        .header {
             padding: 20px;
             border-bottom: var(--border);
-            background: linear-gradient(90deg, rgba(6,182,212,0.1), transparent);
+            background: rgba(0,0,0,0.2);
+            text-align: center;
         }
-        .brand h2 { margin: 0; font-weight: 700; color: var(--accent); letter-spacing: 1px; }
+        .header h2 { margin: 0; color: var(--primary); letter-spacing: 1px; }
 
-        .settings-area {
+        .scroll-area {
             flex: 1;
             overflow-y: auto;
             padding: 20px;
         }
-        /* Stylish Scrollbar */
-        .settings-area::-webkit-scrollbar { width: 5px; }
-        .settings-area::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+        /* Custom Scrollbar */
+        .scroll-area::-webkit-scrollbar { width: 6px; }
+        .scroll-area::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
 
-        /* Accordions */
+        /* Details / Accordion */
         details {
-            background: rgba(255,255,255,0.02);
+            background: rgba(255,255,255,0.03);
             border: var(--border);
             border-radius: 8px;
-            margin-bottom: 15px;
-            transition: 0.3s;
+            margin-bottom: 12px;
+            overflow: hidden;
         }
-        details[open] { border-color: var(--accent-glow); box-shadow: 0 0 10px rgba(0,0,0,0.2); }
         summary {
-            padding: 12px 15px;
+            padding: 12px;
             cursor: pointer;
-            font-weight: 500;
+            font-weight: 600;
+            background: rgba(255,255,255,0.05);
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            list-style: none;
         }
-        summary::after { content: '+'; font-size: 1.2rem; color: #64748b; }
-        details[open] summary::after { content: '-'; color: var(--accent); }
-        .content { padding: 15px; border-top: var(--border); }
+        summary:hover { background: rgba(255,255,255,0.08); }
+        .inner-content { padding: 15px; }
 
         /* Inputs */
-        label { display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 6px; }
-        input[type="text"], input[type="number"], select {
+        label { display: block; font-size: 0.8rem; color: #94a3b8; margin-bottom: 5px; }
+        input, select {
             width: 100%; padding: 10px;
             background: #0f172a; border: 1px solid #334155;
-            color: white; border-radius: 6px; margin-bottom: 12px;
-            font-family: inherit; transition: 0.3s;
+            color: white; border-radius: 6px; margin-bottom: 10px;
+            font-family: inherit;
         }
-        input:focus, select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
+        input:focus { border-color: var(--primary); outline: none; }
 
-        /* Color Inputs */
-        .color-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; background: rgba(0,0,0,0.2); padding: 5px; border-radius: 6px;}
-        input[type="color"] { width: 40px; height: 35px; border: none; cursor: pointer; background: none; }
-        
         .row { display: flex; gap: 10px; }
         .col { flex: 1; }
 
+        /* Color Inputs */
+        .color-group { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        input[type="color"] { width: 40px; height: 35px; border: none; padding: 0; cursor: pointer; }
+
         /* Lock Button */
         .lock-btn {
-            background: none; border: 1px solid #334155; color: #64748b;
+            background: none; border: 1px solid #475569; color: #94a3b8;
             padding: 8px; border-radius: 6px; cursor: pointer; margin-top: 20px;
         }
-        .lock-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(6,182,212,0.1); }
+        .lock-btn.active { border-color: var(--primary); color: var(--primary); background: rgba(56, 189, 248, 0.1); }
 
-        /* --- 2. PREVIEW AREA (Fixed) --- */
-        .preview-stage {
+
+        /* --- PREVIEW AREA (The Fix) --- */
+        .main-stage {
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            position: relative;
-            background-image: 
-                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 30px 30px;
+            background-image: radial-gradient(#334155 1px, transparent 1px);
+            background-size: 24px 24px;
         }
 
-        /* --- STYLISH PREVIEW BOX --- */
-        #preview-frame {
-            width: 400px;
-            height: 400px;
-            background: rgba(255, 255, 255, 1); /* Pure white for contrast */
+        /* STRICT PREVIEW BOX 
+           Yeh box kabhi size change nahi karega.
+        */
+        #fixed-preview-container {
+            width: 380px;  /* FIXED WIDTH */
+            height: 380px; /* FIXED HEIGHT */
+            
+            /* The Glow & Light Border Style */
+            background: #ffffff;
             border-radius: 20px;
-            
-            /* THE GLOW EFFECT */
             box-shadow: 
-                0 0 0 1px rgba(255, 255, 255, 0.5), /* Inner thin border */
-                0 0 30px rgba(6, 182, 212, 0.4),    /* Soft Cyan Glow */
-                0 20px 50px rgba(0, 0, 0, 0.8);     /* Deep Shadow */
-            
+                0 0 0 4px rgba(255, 255, 255, 0.1), /* Outer Ring */
+                0 0 25px rgba(56, 189, 248, 0.4),   /* Blue Glow */
+                0 20px 50px rgba(0,0,0,0.5);        /* Shadow */
+            border: 2px solid rgba(255,255,255,0.8); /* Light Edge */
+
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-            position: relative;
-            z-index: 10;
+            overflow: hidden; /* Important: Cut overflow */
+            padding: 20px; /* Internal Padding */
         }
 
-        /* Internal SVG Fix */
-        #preview-frame svg {
+        /* Force SVG to Fit */
+        #fixed-preview-container svg {
             width: 100% !important;
             height: 100% !important;
-            padding: 20px; /* Internal breathing room */
         }
 
-        /* Download Buttons */
-        .action-dock {
-            margin-top: 40px;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(10px);
-            padding: 10px 20px;
-            border-radius: 50px;
-            border: var(--border);
+        /* Buttons */
+        .action-bar {
+            margin-top: 30px;
             display: flex; gap: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        .btn {
-            padding: 10px 25px; border-radius: 30px; border: none;
-            font-weight: 700; cursor: pointer; color: #fff;
-            transition: 0.3s;
+        button.btn {
+            padding: 10px 25px; border: none; border-radius: 50px;
+            font-weight: 700; color: white; cursor: pointer;
+            transition: 0.2s; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
-        .btn:hover { transform: scale(1.05); filter: brightness(1.2); }
-        .btn-png { background: linear-gradient(135deg, #10b981, #059669); }
-        .btn-jpg { background: linear-gradient(135deg, #f59e0b, #d97706); }
-        .btn-svg { background: linear-gradient(135deg, #ef4444, #b91c1c); }
+        button.btn:hover { transform: translateY(-2px); }
+        .png { background: #10b981; }
+        .jpg { background: #f59e0b; }
+        .svg { background: #ef4444; }
 
     </style>
 </head>
 <body>
 
     <div class="sidebar">
-        <div class="brand">
-            <h2>OMNI QR PRO</h2>
-        </div>
-        <div class="settings-area">
+        <div class="header"><h2>QR MASTER</h2></div>
+        
+        <div class="scroll-area">
             
             <details open>
                 <summary>📝 Content</summary>
-                <div class="content">
+                <div class="inner-content">
                     <input type="text" id="data" value="https://github.com" placeholder="Type URL or Text...">
                 </div>
             </details>
 
             <details>
-                <summary>🎨 Colors (Gradient Supported)</summary>
-                <div class="content">
-                    
-                    <label>Fill Type (Dots)</label>
-                    <select id="dots-gradient-type">
-                        <option value="solid">Solid Color</option>
+                <summary>🎨 Colors</summary>
+                <div class="inner-content">
+                    <label>Gradient Mode</label>
+                    <select id="gradient-type">
+                        <option value="solid">Single Color</option>
                         <option value="linear">Linear Gradient</option>
                         <option value="radial">Radial Gradient</option>
                     </select>
 
-                    <div class="color-row">
-                        <input type="color" id="col-dots-1" value="#000000">
-                        <span style="font-size:0.8rem; color:#ccc;">Primary Color</span>
+                    <div class="color-group">
+                        <input type="color" id="col-1" value="#000000">
+                        <span style="font-size:0.8rem">Primary Color</span>
                     </div>
                     
-                    <div class="color-row" id="col-dots-2-box" style="display:none;">
-                        <input type="color" id="col-dots-2" value="#06b6d4">
-                        <span style="font-size:0.8rem; color:#ccc;">Gradient Color 2</span>
+                    <div class="color-group" id="col-2-box" style="display:none;">
+                        <input type="color" id="col-2" value="#38bdf8">
+                        <span style="font-size:0.8rem">Secondary Color</span>
                     </div>
 
-                    <div style="margin-top: 15px; border-top: 1px dashed #334155; padding-top:10px;">
-                        <div class="color-row">
+                    <div style="margin-top:10px; padding-top:10px; border-top:1px dashed #333;">
+                        <div class="color-group">
                             <input type="color" id="col-bg" value="#ffffff">
-                            <span style="font-size:0.8rem; color:#ccc;">Background</span>
+                            <span style="font-size:0.8rem">Background</span>
                         </div>
                         <label style="display:flex; align-items:center;">
-                            <input type="checkbox" id="bg-transparent" style="width:auto; margin-right:8px;"> Transparent
+                            <input type="checkbox" id="bg-trans" style="width:auto; margin-right:8px;"> Transparent BG
                         </label>
                     </div>
 
-                    <div style="margin-top: 15px; border-top: 1px dashed #334155; padding-top:10px;">
-                        <label style="display:flex; align-items:center; margin-bottom:10px;">
-                            <input type="checkbox" id="use-custom-corners" style="width:auto; margin-right:8px;"> Custom Corner Colors?
+                    <div style="margin-top:10px; padding-top:10px; border-top:1px dashed #333;">
+                        <label style="display:flex; align-items:center;">
+                            <input type="checkbox" id="use-custom-corners" style="width:auto; margin-right:8px;"> Separate Corner Colors
                         </label>
-                        <div id="custom-corners-box" style="display:none;">
-                             <div class="color-row">
+                        <div id="corner-colors-box" style="display:none; margin-top:5px;">
+                            <div class="color-group">
                                 <input type="color" id="col-frame" value="#000000">
-                                <span style="font-size:0.8rem;">Frame Color</span>
+                                <span style="font-size:0.8rem">Frame</span>
                             </div>
-                            <div class="color-row">
+                            <div class="color-group">
                                 <input type="color" id="col-center" value="#000000">
-                                <span style="font-size:0.8rem;">Center Dot Color</span>
+                                <span style="font-size:0.8rem">Center Dot</span>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </details>
 
             <details>
-                <summary>💠 Shapes & Style</summary>
-                <div class="content">
+                <summary>💠 Shapes</summary>
+                <div class="inner-content">
                     <div class="row">
                         <div class="col">
-                            <label>Dots Style</label>
-                            <select id="dots-type">
+                            <label>Dots</label>
+                            <select id="dots-style">
                                 <option value="square">Square</option>
                                 <option value="dots">Dots</option>
                                 <option value="rounded">Rounded</option>
-                                <option value="extra-rounded">Extra Round</option>
+                                <option value="extra-rounded">Ex-Round</option>
                                 <option value="classy">Classy</option>
                                 <option value="classy-rounded">Classy-R</option>
                             </select>
                         </div>
                         <div class="col">
-                            <label>Frame Style</label>
-                            <select id="corners-type">
+                            <label>Frame</label>
+                            <select id="frame-style">
                                 <option value="square">Square</option>
                                 <option value="extra-rounded">Round</option>
                                 <option value="dot">Dot</option>
@@ -260,8 +246,8 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <label>Center Style</label>
-                             <select id="corners-dot-type">
+                            <label>Center</label>
+                            <select id="center-style">
                                 <option value="square">Square</option>
                                 <option value="dot">Dot</option>
                             </select>
@@ -271,9 +257,9 @@
             </details>
 
             <details>
-                <summary>🖼️ Logo Integration</summary>
-                <div class="content">
-                    <input type="file" id="file-logo" accept="image/*" style="padding:0; background:none; border:none;">
+                <summary>🖼️ Logo</summary>
+                <div class="inner-content">
+                    <input type="file" id="file-logo" accept="image/*" style="padding:0; border:none; background:transparent;">
                     <div class="row">
                         <div class="col">
                             <label>Size</label>
@@ -289,15 +275,15 @@
 
             <details open>
                 <summary>📏 Download Size</summary>
-                <div class="content">
-                     <div class="row">
+                <div class="inner-content">
+                    <div class="row">
                         <div class="col">
-                            <label>Width (px)</label>
+                            <label>Width</label>
                             <input type="number" id="width" value="2000" step="100">
                         </div>
                         <button id="lock-btn" class="lock-btn active">🔗</button>
                         <div class="col">
-                            <label>Height (px)</label>
+                            <label>Height</label>
                             <input type="number" id="height" value="2000" step="100">
                         </div>
                     </div>
@@ -307,166 +293,152 @@
                             <input type="number" id="margin" value="20">
                         </div>
                         <div class="col">
-                            <label>Error Correction</label>
-                             <select id="error-level">
+                            <label>Correction</label>
+                            <select id="err-lvl">
                                 <option value="L">Low</option>
                                 <option value="M">Medium</option>
                                 <option value="Q">Quartile</option>
-                                <option value="H" selected>High (Best)</option>
+                                <option value="H" selected>High</option>
                             </select>
                         </div>
                     </div>
-                    <p style="font-size:0.7rem; color:#64748b;">*Preview is fixed. Download uses these dimensions.</p>
+                    <p style="font-size:0.7rem; color:#64748b; margin-top:5px;">*Preview size is fixed. Download uses these dimensions.</p>
                 </div>
             </details>
 
         </div>
     </div>
 
-    <div class="preview-stage">
-        <div id="preview-frame"></div>
-
-        <div class="action-dock">
-            <button class="btn btn-png" onclick="downloadLogic('png')">PNG</button>
-            <button class="btn btn-jpg" onclick="downloadLogic('jpeg')">JPG</button>
-            <button class="btn btn-svg" onclick="downloadLogic('svg')">SVG</button>
+    <div class="main-stage">
+        
+        <div id="fixed-preview-container"></div>
+        
+        <div class="action-bar">
+            <button class="btn png" onclick="downloadQR('png')">PNG</button>
+            <button class="btn jpg" onclick="downloadQR('jpeg')">JPG</button>
+            <button class="btn svg" onclick="downloadQR('svg')">SVG</button>
         </div>
     </div>
 
     <script>
-        // --- 1. PREVIEW ENGINE (Fixed 400px) ---
+        // --- 1. PREVIEW ENGINE (Fixed Size) ---
+        // Iska width height se download ka koi lena dena nahi hai.
         const previewQR = new QRCodeStyling({
-            width: 400, height: 400, type: "svg",
+            width: 380, 
+            height: 380, 
+            type: "svg", // SVG for crisp preview
             data: "https://github.com",
             dotsOptions: { color: "#000000", type: "square" },
             backgroundOptions: { color: "#ffffff" },
             imageOptions: { crossOrigin: "anonymous", margin: 5 }
         });
-        previewQR.append(document.getElementById("preview-frame"));
+        
+        // Render inside fixed container
+        previewQR.append(document.getElementById("fixed-preview-container"));
 
-        // --- 2. STATE ---
+
+        // --- 2. LOGIC & STATE ---
         let logoBase64 = "";
         let isLocked = true;
         let aspectRatio = 1;
 
-        // --- 3. HELPER: Build Color/Gradient Object ---
-        function getDotsColorConfig() {
-            const type = document.getElementById('dots-gradient-type').value;
-            const c1 = document.getElementById('col-dots-1').value;
-            const c2 = document.getElementById('col-dots-2').value;
-
-            // Toggle UI visibility
-            document.getElementById('col-dots-2-box').style.display = (type === 'solid') ? 'none' : 'flex';
-
-            if(type === 'solid') return c1;
-            
-            return {
-                type: type,
-                colorStops: [
-                    { offset: 0, color: c1 },
-                    { offset: 1, color: c2 }
-                ]
-            };
-        }
-
-        // --- 4. MAIN CONFIG BUILDER ---
+        // --- 3. GET OPTIONS FUNCTION ---
         function getOptions(width, height) {
             // Data
             const data = document.getElementById('data').value;
-            
-            // Style & Shape
-            const dotsType = document.getElementById('dots-type').value;
-            const cornersType = document.getElementById('corners-type').value;
-            const centerType = document.getElementById('corners-dot-type').value;
-            
-            // Colors
-            const dotsColorConfig = getDotsColorConfig();
-            const useCustomCorners = document.getElementById('use-custom-corners').checked;
-            document.getElementById('custom-corners-box').style.display = useCustomCorners ? 'block' : 'none';
 
-            let frameColor, centerColor;
+            // Colors
+            const gradType = document.getElementById('gradient-type').value;
+            const c1 = document.getElementById('col-1').value;
+            const c2 = document.getElementById('col-2').value;
             
-            if (useCustomCorners) {
-                frameColor = document.getElementById('col-frame').value;
-                centerColor = document.getElementById('col-center').value;
-            } else {
-                // If solid, inherit. If gradient, use primary color (Library limitation)
-                const baseC = (typeof dotsColorConfig === 'string') ? dotsColorConfig : document.getElementById('col-dots-1').value;
-                frameColor = baseC;
-                centerColor = baseC;
+            // Show/Hide Gradient Input
+            document.getElementById('col-2-box').style.display = (gradType === 'solid') ? 'none' : 'flex';
+
+            // Dot Color Config
+            let dotColorVal = c1;
+            let dotGradVal = undefined;
+
+            if (gradType !== 'solid') {
+                dotGradVal = {
+                    type: gradType,
+                    colorStops: [{ offset: 0, color: c1 }, { offset: 1, color: c2 }]
+                };
+                // Library needs color to be undefined if gradient is active
+                dotColorVal = undefined; 
             }
 
-            // Background
-            const isTransparent = document.getElementById('bg-transparent').checked;
-            const bgCol = isTransparent ? 'transparent' : document.getElementById('col-bg').value;
+            // Custom Corners
+            const useCustom = document.getElementById('use-custom-corners').checked;
+            document.getElementById('corner-colors-box').style.display = useCustom ? 'block' : 'none';
+            
+            let frameCol = useCustom ? document.getElementById('col-frame').value : c1;
+            let centerCol = useCustom ? document.getElementById('col-center').value : c1;
 
-            // Logo
-            const logoSize = parseFloat(document.getElementById('logo-size').value);
-            const logoMargin = parseInt(document.getElementById('logo-margin').value);
-            const margin = parseInt(document.getElementById('margin').value);
-            const errLvl = document.getElementById('error-level').value;
+            // Background
+            const isTrans = document.getElementById('bg-trans').checked;
+            const bgCol = isTrans ? 'transparent' : document.getElementById('col-bg').value;
 
             return {
                 width: width,
                 height: height,
                 data: data,
                 image: logoBase64,
-                margin: margin,
-                dotsOptions: { type: dotsType, color: dotsColorConfig, gradient: (typeof dotsColorConfig === 'object' ? dotsColorConfig : undefined) },
-                cornersSquareOptions: { type: cornersType, color: frameColor },
-                cornersDotOptions: { type: centerType, color: centerColor },
+                margin: parseInt(document.getElementById('margin').value),
+                dotsOptions: { 
+                    type: document.getElementById('dots-style').value,
+                    color: dotColorVal,
+                    gradient: dotGradVal
+                },
+                cornersSquareOptions: { type: document.getElementById('frame-style').value, color: frameCol },
+                cornersDotOptions: { type: document.getElementById('center-style').value, color: centerCol },
                 backgroundOptions: { color: bgCol },
-                imageOptions: { imageSize: logoSize, margin: logoMargin },
-                qrOptions: { errorCorrectionLevel: errLvl }
+                imageOptions: { 
+                    imageSize: parseFloat(document.getElementById('logo-size').value),
+                    margin: parseInt(document.getElementById('logo-margin').value)
+                },
+                qrOptions: { errorCorrectionLevel: document.getElementById('err-lvl').value }
             };
         }
 
-        // --- 5. UPDATE PREVIEW ---
+        // --- 4. UPDATE PREVIEW ---
         function updatePreview() {
-            // Keep preview fixed at 400x400
-            const opts = getOptions(400, 400);
-            
-            // Clean up gradient object for update method (Library quirk)
-            if(typeof opts.dotsOptions.color === 'object') {
-                delete opts.dotsOptions.color; // Remove color property if gradient exists to avoid conflict
-            } else {
-                delete opts.dotsOptions.gradient;
-            }
-            
+            // Preview is ALWAYS 380x380 (minus padding) effectively
+            // But we pass 380 here so library generates correct scaling
+            const opts = getOptions(380, 380);
             previewQR.update(opts);
         }
 
-        // --- 6. DOWNLOAD ENGINE ---
-        async function downloadLogic(ext) {
+        // --- 5. DOWNLOAD ENGINE ---
+        async function downloadQR(format) {
             const w = parseInt(document.getElementById('width').value);
             const h = parseInt(document.getElementById('height').value);
             
             const opts = getOptions(w, h);
-            
-            // Fix JPG transparency
-            if (ext === 'jpeg' && opts.backgroundOptions.color === 'transparent') {
+
+            // JPG Transparency Fix
+            if(format === 'jpeg' && opts.backgroundOptions.color === 'transparent') {
                 opts.backgroundOptions.color = '#ffffff';
             }
 
-            // Fresh instance for download
             const dlQR = new QRCodeStyling({
                 ...opts,
-                type: ext === 'svg' ? 'svg' : 'canvas' // Canvas required for png/jpg
+                type: format === 'svg' ? 'svg' : 'canvas'
             });
-            
-            await dlQR.download({ name: "omni-qr", extension: ext });
+
+            await dlQR.download({ name: "qr-code", extension: format });
         }
 
-        // --- 7. LISTENERS ---
+        // --- 6. EVENT LISTENERS ---
+        
+        // Logo
         document.getElementById('file-logo').addEventListener('change', function() {
             const file = this.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = (e) => { logoBase64 = e.target.result; updatePreview(); };
                 reader.readAsDataURL(file);
-            } else {
-                logoBase64 = ""; updatePreview();
-            }
+            } else { logoBase64 = ""; updatePreview(); }
         });
 
         // Aspect Lock
@@ -481,14 +453,15 @@
         wIn.addEventListener('input', () => { if(isLocked) hIn.value = Math.round(wIn.value / aspectRatio); });
         hIn.addEventListener('input', () => { if(isLocked) wIn.value = Math.round(wIn.value * aspectRatio); });
 
-        // Generic Inputs
+        // Update on any input
         document.querySelectorAll('input:not(#width):not(#height):not(#file-logo), select').forEach(el => {
             el.addEventListener('input', updatePreview);
             el.addEventListener('change', updatePreview);
         });
 
-        // Init
+        // Initial Draw
         updatePreview();
+
     </script>
 </body>
 </html>
