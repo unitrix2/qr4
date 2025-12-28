@@ -2,512 +2,425 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Omni QR Designer Pro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compact Omni QR Pro</title>
     <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
     <style>
         :root {
-            --glass-bg: rgba(255, 255, 255, 0.75);
-            --glass-border: rgba(255, 255, 255, 0.4);
-            --text: #222;
-            --primary-btn: #6200ea;
+            --bg-color: #f0f2f5;
+            --panel-bg: #ffffff;
+            --accent: #2563eb;
+            --text: #1e293b;
+            --border: #e2e8f0;
         }
 
-        /* --- Iridescent Animated Background --- */
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
             margin: 0;
-            padding: 20px;
             color: var(--text);
-            min-height: 100vh;
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab, #e0c3fc, #8ec5fc);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            height: 100vh;
+            overflow: hidden; /* Prevents full page scroll */
             display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            box-sizing: border-box;
+            flex-direction: column;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* --- Glassmorphism Container --- */
-        .container {
+        /* Header */
+        header {
+            background: var(--panel-bg);
+            padding: 10px 20px;
+            border-bottom: 1px solid var(--border);
             display: flex;
-            flex-wrap: wrap;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
-            max-width: 1100px;
+            align-items: center;
+            justify-content: space-between;
+            height: 50px;
+            flex-shrink: 0;
+        }
+        h1 { margin: 0; font-size: 1.2rem; color: var(--accent); }
+
+        /* Main Layout - Split Screen */
+        .main-container {
+            display: flex;
+            height: calc(100vh - 50px); /* Fill remaining height */
             width: 100%;
-            gap: 30px;
-            margin-top: 20px;
-            margin-bottom: 20px;
         }
 
-        h1 {
-            width: 100%;
-            text-align: center;
-            margin-bottom: 10px;
-            margin-top: 0;
-            font-weight: 800;
-            background: linear-gradient(to right, #30cfd0 0%, #330867 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 2.2rem;
+        /* LEFT: Scrollable Controls */
+        .controls-panel {
+            width: 400px;
+            background: var(--panel-bg);
+            border-right: 1px solid var(--border);
+            padding: 15px;
+            overflow-y: auto; /* Only this part scrolls */
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .controls {
-            flex: 1 1 400px; /* Grow, shrink, basis */
-            max-height: 80vh;
-            overflow-y: auto;
-            padding-right: 10px;
-        }
-        
-        /* Custom Scrollbar for controls */
-        .controls::-webkit-scrollbar { width: 8px; }
-        .controls::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); border-radius: 10px; }
-        .controls::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 10px; }
-
-
-        .preview-section {
-            flex: 1 1 350px;
+        /* RIGHT: Fixed Preview Area */
+        .preview-panel {
+            flex-grow: 1;
+            background: #eef2ff;
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 20px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: rgba(255,255,255,0.5);
-            padding: 30px;
-            border-radius: 15px;
-            border: 1px dashed rgba(0,0,0,0.2);
-            position: sticky;
-            top: 20px;
+            padding: 20px;
+            position: relative;
         }
 
-        /* --- THE FIX: Responsive Canvas/SVG --- */
-        #canvas {
-            margin-bottom: 30px;
+        /* --- THE PREVIEW FIX --- */
+        #qr-wrapper {
+            width: 100%;
+            max-width: 450px; /* Max visual size */
+            aspect-ratio: 1/1;
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             display: flex;
-            justify-content: center;
             align-items: center;
-            width: 100%;
-            /* This ensures the preview never overflows, regardless of actual size */
+            justify-content: center;
+            overflow: hidden; /* Important */
         }
-        #canvas canvas, #canvas svg {
-            max-width: 100% !important;
-            height: auto !important;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+
+        /* Force canvas/svg to fit visually regardless of actual resolution */
+        #qr-wrapper canvas, #qr-wrapper svg {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: contain;
+        }
+
+        /* Compact Inputs */
+        .section {
+            border: 1px solid var(--border);
             border-radius: 8px;
-        }
-
-        /* Form Elements Style */
-        label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: #444;
-        }
-        .sub-label { font-size: 0.75rem; color: #666; margin-bottom: 4px; }
-
-        input[type="text"], input[type="number"], select, input[type="file"], input[type="range"] {
-            width: 100%;
             padding: 10px;
-            border: 1px solid rgba(0,0,0,0.1);
-            background: rgba(255,255,255,0.8);
-            border-radius: 8px;
-            font-size: 0.95rem;
-            box-sizing: border-box;
-            margin-bottom: 10px;
-            transition: all 0.2s;
+            background: #f8fafc;
         }
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--primary-btn);
-            background: #fff;
-        }
-
-        .color-picker-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-            align-items: center;
-        }
-        input[type="color"] {
-            width: 40px;
-            height: 40px;
-            border: none;
-            padding: 0;
-            border-radius: 50%;
-            overflow: hidden;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .row {
-            display: flex;
-            gap: 15px;
-        }
-        .row > div { flex: 1; }
-
-        /* Accordion Style */
-        details {
-            background: rgba(255,255,255,0.4);
-            border-radius: 10px;
-            margin-bottom: 12px;
-            border: 1px solid rgba(255,255,255,0.3);
-            overflow: hidden;
-        }
-        summary {
-            padding: 12px;
+        .section-title {
+            font-size: 0.85rem;
             font-weight: 700;
-            cursor: pointer;
-            outline: none;
-            user-select: none;
-            background: rgba(255,255,255,0.3);
-            transition: background 0.2s;
+            margin-bottom: 8px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        summary:hover { background: rgba(255,255,255,0.6); }
-        .details-content { padding: 15px; }
 
-        /* Buttons */
-        .btn-group {
-            display: flex;
-            gap: 10px;
+        .row { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; }
+        .col { flex: 1; }
+        
+        label { font-size: 0.75rem; font-weight: 600; display: block; margin-bottom: 3px; }
+        
+        input[type="text"], input[type="number"], select {
             width: 100%;
-            justify-content: center;
-            flex-wrap: wrap;
+            padding: 6px 8px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            box-sizing: border-box;
         }
-        button {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            color: white;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            flex: 1 1 120px;
-        }
-        .btn-png { background-image: linear-gradient(to right, #11998e, #38ef7d); }
-        .btn-jpg { background-image: linear-gradient(to right, #f2994a, #f2c94c); }
-        .btn-svg { background-image: linear-gradient(to right, #ec008c, #fc6767); }
-        button:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
-        button:active { transform: translateY(1px); }
 
+        /* Custom Range Slider */
+        input[type="range"] { width: 100%; height: 4px; }
+
+        /* Color Pickers - Compact */
+        input[type="color"] {
+            -webkit-appearance: none;
+            width: 100%; height: 30px;
+            padding: 0; border: none;
+            border-radius: 4px; overflow: hidden; cursor: pointer;
+        }
+
+        /* Aspect Ratio Lock Button */
+        .lock-btn {
+            background: none; border: 1px solid #cbd5e1;
+            border-radius: 4px; padding: 5px; cursor: pointer;
+            color: #64748b; font-size: 1rem; line-height: 1;
+        }
+        .lock-btn.active { background: #dbeafe; color: var(--accent); border-color: var(--accent); }
+
+        /* Download Buttons */
+        .download-bar {
+            margin-top: 20px;
+            display: flex; gap: 10px;
+        }
+        .btn-dl {
+            padding: 10px 20px; border: none; border-radius: 6px;
+            color: white; font-weight: 600; cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .btn-dl:active { transform: scale(0.95); }
+        .bg-png { background: #10b981; }
+        .bg-jpg { background: #f59e0b; }
+        .bg-svg { background: #ef4444; }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .main-container { flex-direction: column-reverse; height: auto; overflow: auto; }
+            body { overflow: auto; height: auto; }
+            .controls-panel { width: 100%; border-right: none; border-top: 1px solid var(--border); }
+            .preview-panel { min-height: 350px; position: sticky; top: 0; z-index: 10; border-bottom: 1px solid #ccc; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Omni QR Designer Pro</h1>
+<header>
+    <h1>QR Master</h1>
+    <div style="font-size: 0.8rem; color: #666;">High Res • Vector • Custom</div>
+</header>
 
-        <div class="controls">
-            
-            <div style="margin-bottom: 20px;">
-                <label for="data" style="font-size: 1rem;">Main Content (Link or Text)</label>
-                <input type="text" id="data" placeholder="Enter URL or Text here..." value="https://github.com">
+<div class="main-container">
+    
+    <div class="controls-panel">
+        
+        <div class="section">
+            <div class="section-title">Content</div>
+            <input type="text" id="data" placeholder="https://yourlink.com" value="https://github.com">
+        </div>
+
+        <div class="section">
+            <div class="section-title">Size & Resolution</div>
+            <div class="row">
+                <div class="col">
+                    <label>Width (px)</label>
+                    <input type="number" id="width" value="1000" step="100">
+                </div>
+                <button id="lock-btn" class="lock-btn active" title="Lock Aspect Ratio">🔗</button>
+                <div class="col">
+                    <label>Height (px)</label>
+                    <input type="number" id="height" value="1000" step="100">
+                </div>
             </div>
+            <div class="row">
+                <div class="col">
+                    <label>Margin</label>
+                    <input type="number" id="margin" value="20">
+                </div>
+                <div class="col">
+                    <label>Error Correction</label>
+                    <select id="error-level">
+                        <option value="L">Low</option>
+                        <option value="M">Medium</option>
+                        <option value="Q">Quartile</option>
+                        <option value="H" selected>High (Best for Logos)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
 
-            <details open>
-                <summary>💠 Shapes & Patterns</summary>
-                <div class="details-content">
-                    <label>Main Dots Pattern</label>
+        <div class="section">
+            <div class="section-title">Shapes & Style</div>
+            <div class="row">
+                <div class="col">
+                    <label>Dots Style</label>
                     <select id="dots-type">
-                        <option value="square">Square (Standard)</option>
-                        <option value="dots">Dots (Circles)</option>
-                        <option value="rounded">Rounded Square</option>
+                        <option value="square">Square</option>
+                        <option value="dots">Dots</option>
+                        <option value="rounded">Rounded</option>
                         <option value="extra-rounded">Extra Rounded</option>
                         <option value="classy">Classy</option>
-                        <option value="classy-rounded">Classy Rounded</option>
+                        <option value="classy-rounded">Classy-R</option>
                     </select>
-
-                    <div class="row">
-                        <div>
-                            <label>Outer Corner Style (Frame)</label>
-                            <select id="corners-square-type">
-                                <option value="square">Square</option>
-                                <option value="dot">Dot</option>
-                                <option value="extra-rounded">Extra Rounded</option>
-                                <option value="classy">Classy</option>
-                                <option value="classy-rounded">Classy Rounded</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label>Inner Corner Style (Center)</label>
-                            <select id="corners-dot-type">
-                                <option value="square">Square</option>
-                                <option value="dot">Dot</option>
-                            </select>
-                        </div>
-                    </div>
                 </div>
-            </details>
-
-            <details>
-                <summary>🎨 Colors & Gradients (Advanced)</summary>
-                <div class="details-content">
-                    
-                    <label>Main Dots Color Type</label>
-                    <select id="dots-color-type">
-                        <option value="solid">Solid Color</option>
-                        <option value="linear">Linear Gradient</option>
-                        <option value="radial">Radial Gradient</option>
+                <div class="col">
+                    <label>Corner Frame</label>
+                    <select id="corners-square-type">
+                        <option value="extra-rounded">Extra Rnd</option>
+                        <option value="square">Square</option>
+                        <option value="dot">Dot</option>
+                        <option value="classy">Classy</option>
                     </select>
-                    <div class="color-picker-group">
-                        <div style="flex:1"><label class="sub-label">Color 1 / Solid</label><input type="color" id="color-dots-1" value="#000000"></div>
-                        <div style="flex:1"><label class="sub-label">Color 2 (for gradient)</label><input type="color" id="color-dots-2" value="#434343"></div>
-                    </div>
-
-                     <label style="margin-top: 15px;">Background</label>
-                     <div class="row" style="align-items: center; margin-bottom: 10px;">
-                         <div style="flex: 2;">
-                             <input type="color" id="color-bg" value="#ffffff" style="width:100%; border-radius: 8px;">
-                        </div>
-                        <div style="flex: 1; text-align: right;">
-                            <label style="display: inline-flex; align-items: center; cursor: pointer;">
-                                <input type="checkbox" id="bg-transparent" style="width:auto; margin-right: 8px;"> Transparent
-                            </label>
-                        </div>
-                     </div>
-
-                    <div style="margin-top: 15px; margin-bottom: 10px;">
-                        <label style="display: flex; align-items: center; cursor: pointer; font-weight: bold;">
-                            <input type="checkbox" id="use-distinct-colors" style="width:auto; margin-right: 10px;"> Use Distinct Corner Colors?
-                        </label>
-                     </div>
-
-                     <div id="distinct-colors-section" style="display: none; background: rgba(255,255,255,0.3); padding: 10px; border-radius: 8px;">
-                        <label>Outer Corners Color</label>
-                         <div class="color-picker-group">
-                             <input type="color" id="color-corner-square" value="#000000">
-                         </div>
-                         <label>Inner Corners Color</label>
-                         <div class="color-picker-group">
-                             <input type="color" id="color-corner-dot" value="#000000">
-                         </div>
-                    </div>
-
                 </div>
-            </details>
-
-            <details>
-                <summary>🖼️ Logo Integration</summary>
-                <div class="details-content">
-                    <label>Upload Logo (Center Image)</label>
-                    <input type="file" id="file-logo" accept="image/*">
-                    
-                    <label style="margin-top: 10px;">Logo Size Multiplier (0.1 - 1.0)</label>
-                    <input type="range" id="image-size" min="0.1" max="0.8" step="0.05" value="0.4">
-                    
-                    <label style="display: flex; align-items: center; cursor: pointer; margin-top: 10px;">
-                        <input type="checkbox" id="image-hide-bg" checked style="width:auto; margin-right: 8px;"> Hide Dots Behind Logo
-                    </label>
-                </div>
-            </details>
-
-             <details>
-                <summary>📏 Size & Quality Settings</summary>
-                <div class="details-content">
-                    <div class="row">
-                        <div>
-                            <label>Download Width (px)</label>
-                            <input type="number" id="width" value="1024" step="50" min="100">
-                        </div>
-                        <div>
-                            <label>Download Height (px)</label>
-                            <input type="number" id="height" value="1024" step="50" min="100">
-                        </div>
-                    </div>
-                    <div class="row" style="margin-top: 10px;">
-                         <div>
-                            <label>Quiet Zone (Margin)</label>
-                            <input type="number" id="margin" value="10" step="1" min="0">
-                        </div>
-                        <div>
-                            <label>Error Correction Level</label>
-                            <select id="error-level">
-                                <option value="L">Low (7%)</option>
-                                <option value="M" selected>Medium (15%)</option>
-                                <option value="Q">Quartile (25%)</option>
-                                <option value="H">High (30% - Best for Logos)</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </details>
-
-        </div>
-
-        <div class="preview-section">
-            <h3 style="margin-top: 0; opacity: 0.7;">Live Preview</h3>
-            <div id="canvas"></div>
-            
-            <div class="btn-group">
-                <button class="btn-png" onclick="downloadQR('png')">Download PNG</button>
-                <button class="btn-jpg" onclick="downloadQR('jpeg')">Download JPG</button>
-                <button class="btn-svg" onclick="downloadQR('svg')">Download SVG</button>
             </div>
-            <p style="font-size: 0.8rem; opacity: 0.6; text-align: center; margin-top: 15px;">
-                Note: Preview is scaled down. Downloaded file will be the exact size specified in settings.
-            </p>
+            <div class="row">
+                <div class="col">
+                    <label>Corner Center</label>
+                    <select id="corners-dot-type">
+                        <option value="dot">Dot</option>
+                        <option value="square">Square</option>
+                    </select>
+                </div>
+            </div>
         </div>
+
+        <div class="section">
+            <div class="section-title">Colors</div>
+            <div class="row">
+                <div class="col">
+                    <label>Dots Color</label>
+                    <input type="color" id="color-dots" value="#000000">
+                </div>
+                <div class="col">
+                    <label>Background</label>
+                    <input type="color" id="color-bg" value="#ffffff">
+                </div>
+            </div>
+            <label style="display:flex; align-items:center; font-size: 0.8rem; margin-top:5px;">
+                <input type="checkbox" id="bg-transparent" style="width:auto; margin-right:5px;"> Transparent Background
+            </label>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Logo / Image</div>
+            <input type="file" id="file-logo" accept="image/*" style="border:none; padding-left:0;">
+            
+            <div class="row" style="margin-top:5px;">
+                <div class="col">
+                    <label>Logo Size</label>
+                    <input type="range" id="image-size" min="0.1" max="0.6" step="0.05" value="0.4">
+                </div>
+                <div class="col">
+                     <label>Margin around Logo</label>
+                     <input type="number" id="image-margin" value="10">
+                </div>
+            </div>
+        </div>
+
+    </div> <div class="preview-panel">
+        <div id="qr-wrapper"></div>
+        
+        <div class="download-bar">
+            <button class="btn-dl bg-png" onclick="downloadQR('png')">PNG</button>
+            <button class="btn-dl bg-jpg" onclick="downloadQR('jpeg')">JPG</button>
+            <button class="btn-dl bg-svg" onclick="downloadQR('svg')">SVG</button>
+        </div>
+        <p style="font-size: 0.75rem; color: #666; margin-top: 10px;">
+            Preview is fit to screen. Download is actual size.
+        </p>
     </div>
 
-    <script>
-        // --- Helper Function to construct color/gradient objects ---
-        function getColorConfig(typeId, color1Id, color2Id) {
-            const type = document.getElementById(typeId).value;
-            const color1 = document.getElementById(color1Id).value;
-            const color2 = document.getElementById(color2Id).value;
+</div>
 
-            if (type === 'solid') {
-                return color1;
-            } else {
-                return {
-                    type: type,
-                    colorStops: [
-                        { offset: 0, color: color1 },
-                        { offset: 1, color: color2 }
-                    ]
-                };
-            }
+<script>
+    // --- State & Config ---
+    let aspectRatioLocked = true;
+    let aspectRatio = 1;
+
+    let qrOptions = {
+        width: 1000,
+        height: 1000,
+        type: "svg",
+        data: "https://github.com",
+        image: "",
+        margin: 20,
+        qrOptions: { typeNumber: 0, mode: "Byte", errorCorrectionLevel: "H" },
+        imageOptions: { hideBackgroundDots: true, imageSize: 0.4, margin: 10, crossOrigin: "anonymous" },
+        dotsOptions: { type: "square", color: "#000000" },
+        backgroundOptions: { color: "#ffffff" },
+        cornersSquareOptions: { type: "extra-rounded", color: "#000000" },
+        cornersDotOptions: { type: "dot", color: "#000000" },
+    };
+
+    const qrCode = new QRCodeStyling(qrOptions);
+    const canvasContainer = document.getElementById("qr-wrapper");
+    qrCode.append(canvasContainer);
+
+    // --- Aspect Ratio Logic ---
+    const widthInput = document.getElementById('width');
+    const heightInput = document.getElementById('height');
+    const lockBtn = document.getElementById('lock-btn');
+
+    lockBtn.addEventListener('click', () => {
+        aspectRatioLocked = !aspectRatioLocked;
+        lockBtn.classList.toggle('active');
+        if(aspectRatioLocked) {
+            // Reset ratio based on current width
+            aspectRatio = widthInput.value / heightInput.value;
         }
+    });
 
-        // --- Initial Configuration ---
-        let qrOptions = {
-            width: 1024, // High quality default
-            height: 1024,
-            type: "svg",
-            data: "https://github.com",
-            image: "",
-            margin: 10,
-            qrOptions: {
-                typeNumber: 0,
-                mode: "Byte",
-                errorCorrectionLevel: "M"
-            },
-            imageOptions: {
-                hideBackgroundDots: true,
-                imageSize: 0.4,
-                margin: 5,
-                crossOrigin: "anonymous",
-            },
-            dotsOptions: {
-                type: "square",
-                color: "#000000"
-            },
-            backgroundOptions: {
-                color: "#ffffff",
-            },
-            cornersSquareOptions: { type: "square", color: "#000000" },
-            cornersDotOptions: { type: "square", color: "#000000" },
-        };
-
-        // Initialize QR Code
-        const qrCode = new QRCodeStyling(qrOptions);
-        qrCode.append(document.getElementById("canvas"));
-
-        // --- Main Update Function ---
-        function updateQRCode() {
-            // Basic
-            qrOptions.data = document.getElementById('data').value;
-            qrOptions.width = parseInt(document.getElementById('width').value);
-            qrOptions.height = parseInt(document.getElementById('height').value);
-            qrOptions.margin = parseInt(document.getElementById('margin').value);
-            qrOptions.qrOptions.errorCorrectionLevel = document.getElementById('error-level').value;
-
-            // Shapes
-            qrOptions.dotsOptions.type = document.getElementById('dots-type').value;
-            qrOptions.cornersSquareOptions.type = document.getElementById('corners-square-type').value;
-            qrOptions.cornersDotOptions.type = document.getElementById('corners-dot-type').value;
-
-            // Colors & Gradients (Main Dots)
-            qrOptions.dotsOptions.color = getColorConfig('dots-color-type', 'color-dots-1', 'color-dots-2');
-
-            // Background
-            const isTransparent = document.getElementById('bg-transparent').checked;
-            qrOptions.backgroundOptions.color = isTransparent ? 'transparent' : document.getElementById('color-bg').value;
-
-            // Distinct Corner Colors logic
-            const useDistinctColors = document.getElementById('use-distinct-colors').checked;
-            document.getElementById('distinct-colors-section').style.display = useDistinctColors ? 'block' : 'none';
-
-            if (useDistinctColors) {
-                // Use specific corner colors if checkbox checked
-                 qrOptions.cornersSquareOptions.color = document.getElementById('color-corner-square').value;
-                 qrOptions.cornersDotOptions.color = document.getElementById('color-corner-dot').value;
-            } else {
-                // Otherwise, inherit from main dots color (if solid) or set default black if gradient to avoid clash
-                // The library doesn't easily support inheriting gradients for corners yet, so we default to color1 if gradient is used.
-                const dotsColorType = document.getElementById('dots-color-type').value;
-                 const baseColor = dotsColorType === 'solid' ? document.getElementById('color-dots-1').value : document.getElementById('color-dots-1').value;
-                 qrOptions.cornersSquareOptions.color = baseColor;
-                 qrOptions.cornersDotOptions.color = baseColor;
-            }
-
-            // Image settings
-            qrOptions.imageOptions.imageSize = parseFloat(document.getElementById('image-size').value);
-            qrOptions.imageOptions.hideBackgroundDots = document.getElementById('image-hide-bg').checked;
-
-            qrCode.update(qrOptions);
+    widthInput.addEventListener('input', () => {
+        if(aspectRatioLocked) {
+            heightInput.value = Math.round(widthInput.value / aspectRatio);
         }
+        updateQRCode();
+    });
 
-        // --- Event Listeners ---
+    heightInput.addEventListener('input', () => {
+        if(aspectRatioLocked) {
+            widthInput.value = Math.round(heightInput.value * aspectRatio);
+        }
+        updateQRCode();
+    });
 
-        // File Upload for Logo
-        document.getElementById('file-logo').addEventListener('change', function() {
-            const file = this.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    qrOptions.image = e.target.result;
-                    // Auto-set error correction to High for better logo scanning
-                    document.getElementById('error-level').value = "H";
-                    updateQRCode();
-                }
-                reader.readAsDataURL(file);
-            } else {
-                qrOptions.image = "";
+    // --- Main Update Function ---
+    function updateQRCode() {
+        // Data
+        qrOptions.data = document.getElementById('data').value;
+        
+        // Dimensions
+        qrOptions.width = parseInt(document.getElementById('width').value);
+        qrOptions.height = parseInt(document.getElementById('height').value);
+        qrOptions.margin = parseInt(document.getElementById('margin').value);
+        qrOptions.qrOptions.errorCorrectionLevel = document.getElementById('error-level').value;
+
+        // Styles
+        qrOptions.dotsOptions.type = document.getElementById('dots-type').value;
+        qrOptions.cornersSquareOptions.type = document.getElementById('corners-square-type').value;
+        qrOptions.cornersDotOptions.type = document.getElementById('corners-dot-type').value;
+
+        // Colors
+        const dotColor = document.getElementById('color-dots').value;
+        qrOptions.dotsOptions.color = dotColor;
+        qrOptions.cornersSquareOptions.color = dotColor; // Match corners
+        qrOptions.cornersDotOptions.color = dotColor;
+
+        const isTransparent = document.getElementById('bg-transparent').checked;
+        qrOptions.backgroundOptions.color = isTransparent ? 'transparent' : document.getElementById('color-bg').value;
+
+        // Logo
+        qrOptions.imageOptions.imageSize = parseFloat(document.getElementById('image-size').value);
+        qrOptions.imageOptions.margin = parseInt(document.getElementById('image-margin').value);
+
+        qrCode.update(qrOptions);
+    }
+
+    // --- Event Listeners ---
+    document.getElementById('file-logo').addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                qrOptions.image = e.target.result;
                 updateQRCode();
             }
-        });
-
-        // Listen to all generic inputs
-        const inputs = document.querySelectorAll('input:not(#file-logo), select');
-        inputs.forEach(el => {
-            el.addEventListener('input', updateQRCode);
-            el.addEventListener('change', updateQRCode); // For checkboxes/selects
-        });
-
-        // Initial Call to render immediately
-        updateQRCode();
-
-        // Download Function
-        function downloadQR(format) {
-            // Ensure background is white for JPG if transparency was selected (JPG can't be transparent)
-            let currentBg = qrOptions.backgroundOptions.color;
-            if (format === 'jpeg' && currentBg === 'transparent') {
-                qrOptions.backgroundOptions.color = '#ffffff';
-                qrCode.update(qrOptions);
-            }
-
-            qrCode.download({ name: "custom-qr-design", extension: format }).then(() => {
-                 // Restore transparent bg if it was changed for JPG
-                 if (format === 'jpeg' && currentBg === 'transparent') {
-                    qrOptions.backgroundOptions.color = 'transparent';
-                    qrCode.update(qrOptions);
-                 }
-            });
+            reader.readAsDataURL(file);
+        } else {
+            qrOptions.image = "";
+            updateQRCode();
         }
-    </script>
+    });
+
+    // Attach listener to all other inputs
+    const inputs = document.querySelectorAll('input:not(#width):not(#height):not(#file-logo), select');
+    inputs.forEach(el => el.addEventListener('input', updateQRCode));
+
+    // --- Download ---
+    function downloadQR(format) {
+        let currentBg = qrOptions.backgroundOptions.color;
+        // Fix for JPG transparency
+        if (format === 'jpeg' && currentBg === 'transparent') {
+            qrOptions.backgroundOptions.color = '#ffffff';
+            qrCode.update(qrOptions);
+        }
+        
+        qrCode.download({ name: "qr-code", extension: format }).then(() => {
+             // Restore
+             if (format === 'jpeg' && currentBg === 'transparent') {
+                qrOptions.backgroundOptions.color = 'transparent';
+                qrCode.update(qrOptions);
+             }
+        });
+    }
+
+    // Init
+    updateQRCode();
+
+</script>
 </body>
 </html>
